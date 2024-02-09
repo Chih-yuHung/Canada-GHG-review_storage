@@ -3,7 +3,7 @@ library(tidyverse);library(ggplot2)
 library(reshape2);library(scatterpie)
 library(stringr);library(ggpubr)
 #read data
-GHG <- read.csv("input/data of ghg emission.csv",header = T)
+GHG <- read.csv("input/Canada GHG storage lit review data.csv",header = T)
 #obtain studies with field measurement 
 GHG.field <- GHG[grepl("Field", GHG$GHG.source),]
 GHG.field <- GHG.field[!grepl("^Grass$", GHG.field$Field.crop),]
@@ -11,8 +11,8 @@ GHG.field <- GHG.field[GHG.field$N2O == TRUE,]
 
 
 # Define custom colors for CO2, N2O, CH4, and NH3
-cold_colors <- c("#999999", "#009E73", "#0072B2", "#56B4E9")
-warm_colors <- c("#D55E00", "#E69F00", "#F0E442", "#CC79A7")
+cold_colors <- c("#878787", "#4984eb", "#7d2fa3", "#2eb392")
+warm_colors <- c("#de8a5b", "#b82e1c", "#e0a26c", "#e8734d")
 
 # GHG.field <- GHG.field %>%
 #           filter(str_detect(Technique, "Micrometeorology")|
@@ -126,3 +126,4 @@ ggsave("output/Fig2_study period and length.png",
                  ncol = 1, nrow = 2),
        width = 4800, height = 7200, units = "px",
        dpi = 600)
+
