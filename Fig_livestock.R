@@ -6,15 +6,15 @@ library(stringr);library(ggpubr)
 #read data
 GHG <- read.csv("input/Canada GHG storage lit review data.csv",header = T)
 #obtain studies with field measurement 
-GHG.field <- GHG[grepl("Field", GHG$GHG.source),]
-GHG.field <- GHG.field[!grepl("^Grass$", GHG.field$Field.crop),]
-GHG.field <- GHG.field[GHG.field$N2O == TRUE,]
+GHG.storage <- GHG[grepl("Storage", GHG$GHG.source),]
+#GHG.field <- GHG.field[!grepl("^Grass$", GHG.field$Field.crop),]
+#GHG.field <- GHG.field[GHG.field$N2O == TRUE,]
 
 cold_colors <- c("#878787", "#4984eb", "#7d2fa3", "#2eb392")
 warm_colors <- c("#de8a5b", "#b82e1c", "#e0a26c", "#e8734d")
 
 #Livestock types
-livestock_data <- GHG.field %>%
+livestock_data <- GHG.storage %>%
   separate_rows(Livestock, sep = ",\\s*") %>%
   group_by(Pub..year,Livestock) %>%
   summarise(Number = n()) %>%
@@ -47,7 +47,9 @@ Fig1b <- ggplot(data = na.omit(livestock_data),
                      breaks = seq(1990, 2023 , by = 5),
                      expand = c(0, 0))
 
+
 ggsave("output/Fig2_livestock.png", Fig1b,
        width = 4800, height = 7200, units = "px",
        dpi = 600)
+
 
