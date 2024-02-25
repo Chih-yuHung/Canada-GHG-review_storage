@@ -4,25 +4,25 @@ library(tidyverse);library(ggplot2)
 library(reshape2);library(scatterpie)
 library(stringr);library(ggpubr)
 #read data
-GHG <- read.csv("input/data of ghg emission.csv",header = T)
+GHG <- read.csv("input/Canada GHG storage lit review data.csv",header = T)
 #obtain studies with field measurement 
-GHG.field <- GHG[grepl("Field", GHG$GHG.source),]
-GHG.field <- GHG.field[!grepl("^Grass$", GHG.field$Field.crop),]
+GHG.storage <- GHG[grepl("Field", GHG$GHG.source),]
+#GHG.field <- GHG.field[!grepl("^Grass$", GHG.field$Field.crop),]
 
 # Define custom colors, cold for indoor, warm for outdoor
 cold_colors <- c("#999999", "#009E73", "#0072B2", "#56B4E9")
 warm_colors <- c("#D55E00", "#E69F00", "#F0E442", "#CC79A7")
 
 # #GHG types
-sum(GHG.field$CO2) #61, 44.8%
-sum(GHG.field$CH4) #37, 27.2%
-sum(GHG.field$N2O) #119, 87.5%
-#sum(GHG.field$NH3) #15, 
+sum(GHG.storage$CO2) #61, 44.8%
+sum(GHG.storage$CH4) #37, 27.2%
+sum(GHG.storage$N2O) #119, 87.5%
+sum(GHG.storage$NH3) #15, 
 
 #GHG types 
-GHG_data <- GHG.field %>%
-  #filter(str_detect(Technique, "Micrometeorology")|  #Include all methods
-  #         str_detect(Technique, "Soil chamber")) %>%
+GHG_data <- GHG.storage %>%
+  # filter(str_detect(Technique, "Micrometeorology")|  #Include all methods
+  # str_detect(Technique, "Soil chamber")) %>%
   separate_rows(Manure.type, sep = ",\\s*") %>%
   group_by(Pub..year, Manure.type) %>%
   summarize(
@@ -32,7 +32,7 @@ GHG_data <- GHG.field %>%
     NH3_count = sum(NH3)
   ) %>%
   ungroup() %>%
-  na.omit()
+   na.omit()
 
 
 # Reshape the data to long format
@@ -85,3 +85,4 @@ plot(GHG_stacked$Pub..year[GHG_stacked$Manure.type=="Liquid"],
 points(GHG_stacked$Pub..year[GHG_stacked$Manure.type=="Solid"],
        GHG_stacked$count[GHG_stacked$Manure.type=="Solid"],
        pch = 17)
+
