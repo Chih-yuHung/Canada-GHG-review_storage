@@ -10,6 +10,7 @@ GHG.storage <- GHG[grepl("Storage", GHG$GHG.source),]
 #GHG.field <- GHG.field[!grepl("^Grass$", GHG.field$Field.crop),]
 #GHG.field <- GHG.field[GHG.field$N2O == TRUE,]
 
+
 cold_colors <- c("#878787", "#4984eb", "#7d2fa3", "#2eb392")
 warm_colors <- c("#de8a5b", "#b82e1c", "#e0a26c", "#e8734d")
 
@@ -25,7 +26,7 @@ livestock_data <- GHG.storage %>%
 Fig1b <- ggplot(data = na.omit(livestock_data), 
                 aes(x = Pub..year, y = Number, fill = Livestock)) +
   geom_bar(stat = "identity") +
-  labs(x = "Publication Year", y = "Publication number") +
+  labs(x = "Publication Year", y = "Study Count") +
   scale_fill_manual(values = c(warm_colors,cold_colors)) +
   theme_classic() +
   theme(axis.text = element_text(size = 14, colour = "black"),
@@ -40,8 +41,8 @@ Fig1b <- ggplot(data = na.omit(livestock_data),
   geom_text(aes(label = paste0(round(Percentage, 0), "%")),
             position = position_stack(vjust = 0.5),
             size = 3) +
-  scale_y_continuous(limits = c(0, 20), 
-                     breaks = seq(0, 20, by = 2),
+  scale_y_continuous(limits = c(0, 30), 
+                     breaks = seq(0, 30, by = 2),
                      expand = c(0, 0))+
   scale_x_continuous(limits = c(1990, 2023), 
                      breaks = seq(1990, 2023 , by = 5),

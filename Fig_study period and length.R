@@ -5,18 +5,19 @@ library(stringr);library(ggpubr)
 #read data
 GHG <- read.csv("input/Canada GHG storage lit review data.csv",header = T)
 #obtain studies with field measurement 
-GHG.field <- GHG[grepl("Field", GHG$GHG.source),]
-GHG.field <- GHG.field[!grepl("^Grass$", GHG.field$Field.crop),]
-GHG.field <- GHG.field[GHG.field$N2O == TRUE,]
+GHG.storage <- GHG[grepl("Storage", GHG$GHG.source),]
+#GHG.storage<- GHG.field[!grepl("^Grass$", GHG.field$Field.crop),]
+#GHG.storage <- GHG.field[GHG.field$N2O == TRUE,]
 
 
 # Define custom colors for CO2, N2O, CH4, and NH3
 cold_colors <- c("#878787", "#4984eb", "#7d2fa3", "#2eb392")
 warm_colors <- c("#de8a5b", "#b82e1c", "#e0a26c", "#e8734d")
 
-# GHG.field <- GHG.field %>%
-#           filter(str_detect(Technique, "Micrometeorology")|
-#                   str_detect(Technique, "Soil chamber"))
+ GHG.storage <- GHG.storage %>%
+           filter(str_detect(Technique, "Micrometeorology")|
+                   str_detect(Technique, "Floating chamber")|
+                    str_detect (Technique, "Encapsulating chamber"))
 #  sum(na.omit(GHG.field$Manure.type == "Liquid, Solid")) #8
 #  sum(na.omit(GHG.field$Manure.type == "Liquid")) #26
 #  sum(na.omit(GHG.field$Manure.type == "Solid")) #19
@@ -25,10 +26,11 @@ warm_colors <- c("#de8a5b", "#b82e1c", "#e0a26c", "#e8734d")
 
 #Figure 2a
 #study period
-season_data <- GHG.field %>%
+season_data <- GHG.storage %>%
   separate_rows(Season, sep = ",\\s*") %>%
   filter(str_detect(Technique, "Micrometeorology")|
-           str_detect(Technique, "Soil chamber")) %>%
+           str_detect(Technique, "Floating chamber")|
+            str_detect(Technique, "Encapsulating chamber")) %>%
   group_by(Pub..year,Season) %>%
   summarise(Number = n ()) %>%
   ungroup() %>%
@@ -80,10 +82,11 @@ Fig2a <- ggplot(data = na.omit(season_data),
           label = "(a)",size = 6)
 #Figure 2b
 #study length
-period_data <- GHG.field %>%
+period_data <- GHG.storage %>%
   separate_rows(Period, sep = ",\\s*") %>%
   filter(str_detect(Technique, "Micrometeorology")|
-           str_detect(Technique, "Soil chamber")) %>%
+           str_detect(Technique, "Floating chamber")|
+             str_detect(Technique, "Encapsulating chamber")) %>%
   group_by(Pub..year,Period) %>%
   summarise(Number = n ()) %>%
   ungroup() %>%

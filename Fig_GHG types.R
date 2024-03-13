@@ -6,7 +6,7 @@ library(stringr);library(ggpubr)
 #read data
 GHG <- read.csv("input/Canada GHG storage lit review data.csv",header = T)
 #obtain studies with field measurement 
-GHG.storage <- GHG[grepl("Field", GHG$GHG.source),]
+GHG.storage <- GHG[grepl("Storage", GHG$GHG.source),]
 #GHG.field <- GHG.field[!grepl("^Grass$", GHG.field$Field.crop),]
 
 # Define custom colors, cold for indoor, warm for outdoor
@@ -55,7 +55,7 @@ GHG_stacked$Percentage <- round(GHG_stacked$count /
 Fig5 <- ggplot(GHG_stacked, aes(x = Pub..year, y = count, fill = variable)) +
   geom_col() +
   scale_fill_manual(values = c(warm_colors, cold_colors)) +
-  labs(x = "Publication Year", y = "Publication number", fill = "GHG type") +
+  labs(x = "Publication Year", y = "Study Count", fill = "GHG type") +
   theme_classic()+
   theme(axis.text = element_text(size = 14, colour = "black"),
         axis.title.x = element_text(size = 14),
@@ -66,8 +66,8 @@ Fig5 <- ggplot(GHG_stacked, aes(x = Pub..year, y = count, fill = variable)) +
         legend.text = element_text(size = 12),
         axis.line = element_line(color = "black")) +
   theme(axis.title.x = element_text(size = 12)) +
-  scale_y_continuous(limits = c(0, 40), 
-                     breaks = seq(0, 40, by = 5),
+  scale_y_continuous(limits = c(0, 45), 
+                     breaks = seq(0, 45, by = 5),
                      expand = c(0, 0)) +
   scale_x_continuous(limits = c(1990, 2023), 
                      breaks = seq(1990, 2023 , by = 5),
@@ -85,4 +85,8 @@ plot(GHG_stacked$Pub..year[GHG_stacked$Manure.type=="Liquid"],
 points(GHG_stacked$Pub..year[GHG_stacked$Manure.type=="Solid"],
        GHG_stacked$count[GHG_stacked$Manure.type=="Solid"],
        pch = 17)
+
+ggsave("output/GHG_Types.png" ,
+       width = 4800, height = 7200, units = "px",
+       dpi = 600)
 

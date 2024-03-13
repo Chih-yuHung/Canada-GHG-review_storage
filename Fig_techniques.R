@@ -6,9 +6,9 @@ library(stringr);library(ggpubr)
 #read data
 GHG <- read.csv("input/Canada GHG storage lit review data.csv",header = T)
 #obtain studies with field measurement 
-GHG.field <- GHG[grepl("Field", GHG$GHG.source),]
-GHG.field <- GHG.field[!grepl("^Grass$", GHG.field$Field.crop),]
-GHG.field <- GHG.field[GHG.field$N2O == TRUE,]
+GHG.storage <- GHG[grepl("Storage", GHG$GHG.source),]
+#GHG.field <- GHG.field[!grepl("^Grass$", GHG.field$Field.crop),]
+#GHG.field <- GHG.field[GHG.field$N2O == TRUE,]
 
 
 # Define custom colors, cold for indoor, warm for outdoor
@@ -16,7 +16,7 @@ cold_colors <- c("#878787", "#4984eb", "#7d2fa3", "#2eb392")
 warm_colors <- c("#de8a5b", "#b82e1c", "#e0a26c", "#e8734d")
 
 #Techniques 
-Tech_data <- GHG.field %>%
+Tech_data <- GHG.storage %>%
   separate_rows(Technique, sep = ",\\s*") %>%
   group_by(Pub..year,Technique) %>%
   summarise(Number = n()) %>%
@@ -27,7 +27,7 @@ Tech_data <- GHG.field %>%
 #Set the order for the techniques
 Tech_data$Technique <- factor(Tech_data$Technique, 
                        levels = c("Incubation", "Mixed", "Modelling",
-                                "Micrometeorology", "Soil chamber"))
+                                "Micrometeorology", "Floating chamber", "Encapsulating chamber"))
 tapply(Tech_data$Number,Tech_data$Technique,sum)
 #Incu 30, mixed 16, modelling 18, micromete 8, soil chamber 55.
 
@@ -53,7 +53,7 @@ png(file = "output/Techniques.png",
 ggplot(Tech_data, aes(x = Pub..year, y = Number, fill = Technique)) +
   geom_bar(stat = "identity") +
   labs(x = "Publication Year", y = "Study count") +
-  scale_fill_manual(values = c(cold_colors[1:3],warm_colors[1:2])) +
+  scale_fill_manual(values = c(cold_colors[1:3],warm_colors[1:3])) +
   theme_classic() +
   theme(axis.text = element_text(size = 14, colour = "black"),
         axis.title.x = element_text(size = 14),
@@ -75,7 +75,9 @@ ggplot(Tech_data, aes(x = Pub..year, y = Number, fill = Technique)) +
                      expand = c(0, 0))
 dev.off()
 
-
+ggsave("output/Techniques.png" ,
+       width = 4800, height = 7200, units = "px",
+       dpi = 600)
 
 
 
