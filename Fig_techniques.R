@@ -5,14 +5,14 @@ library(reshape2);library(scatterpie)
 library(stringr);library(ggpubr)
 #read data
 GHG <- read.csv("input/Canada GHG storage lit review data.csv",header = T)
-#obtain studies with field measurement 
+#obtain studies from storage measurement 
 GHG.storage <- GHG[grepl("Storage", GHG$GHG.source),]
 #GHG.field <- GHG.field[!grepl("^Grass$", GHG.field$Field.crop),]
 #GHG.field <- GHG.field[GHG.field$N2O == TRUE,]
 
 
 # Define custom colors, cold for indoor, warm for outdoor
-cold_colors <- c("#878787", "#4984eb", "#7d2fa3", "#2eb392")
+cold_colors <- c("cyan1", "#4984eb", "#7d2fa3", "#2eb392")
 warm_colors <- c("#de8a5b", "#b82e1c", "#e0a26c", "#e8734d")
 
 #Techniques 
@@ -75,9 +75,6 @@ ggplot(Tech_data, aes(x = Pub..year, y = Number, fill = Technique)) +
                      expand = c(0, 0))
 dev.off()
 
-ggsave("output/Techniques.png" ,
-       width = 4800, height = 7200, units = "px",
-       dpi = 600)
 
 
 
