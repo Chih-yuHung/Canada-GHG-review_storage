@@ -102,7 +102,7 @@
 101,Alemu,2017,Agricultural Systems,National,2010,2011,Single Year,Year-Round,Farm,Modelling,Beef Cattle,Whole herd,Mixed,NA,"Liquid, Solid","Compost, Stockpile","Enteric, Field, Storage","Annual crop, Grass, Perennial crop",F,T,T,F,NA,NA,NA,NA,NA
 102,Li,2016,Canadian Journal of Soil Science,Alberta,NA,NA,Single Year,NA,Lab,Incubation,Beef Cattle,Whole herd,Indoor,Diet,Solid,Compost,Field,NA,T,F,T,F,Med,NA,NA,NA,NA
 103,Giweta,2016,Canadian Journal of Soil Science,Alberta,2013,2015,Multiple Years,Growing,Field,Soil chamber,Beef Cattle,Whole herd,Indoor,NA,Solid,Compost,Field,Annual crop,T,F,T,F,Med,"Spring, Fall",NA,NA,NA
-104,Riche,2016,Canadian Journal of Soil Science,Nova Scotia,2014,2014,Single Year,Growing,Pilot,Soil chamber,Dairy Cattle,Cows,Indoor,NA,Liquid,NA,Storage,NA,F,T,T,T,NA,NA,NA,NA,NA
+104,Le Riche,2016,Canadian Journal of Soil Science,Nova Scotia,2014,2014,Single Year,Growing,Pilot,Soil chamber,Dairy Cattle,Cows,Indoor,NA,Liquid,NA,Storage,NA,F,T,T,T,NA,NA,NA,NA,NA
 105,Chantigny,2016,Canadian Journal of Soil Science,Quebec,2009,2013,Multiple Years,Non-Growing,Field,Soil chamber,Swine,Whole herd,Indoor,NA,Liquid,NA,Field,NA,T,F,T,F,Med,Fall,NA,NA,NA
 106,Withey,2016,Journal of Chemical Technology and Biotechnology,Alberta,NA,NA,Single Year,NA,Lab,Incubation,Dairy Cattle,Whole herd,Indoor,NA,Liquid,"Antibiotics, Digester",Storage,NA,T,T,F,F,NA,NA,NA,NA,NA
 107,Baldé,2016,"Agriculture, Ecosystems and Environment",Ontario,2013,2014,Multiple Years,Year-Round,Farm,Micrometeorology,Dairy Cattle,Whole herd,Indoor,NA,Liquid,"Compost, Removal, Solid-Liquid Separation",Storage,NA,F,T,F,F,NA,NA,"Spring, Summer, Fall","3, 4","30, 45, 70, 90"
@@ -214,7 +214,7 @@
 213,Mkhabela,2006,Chemosphere,Nova Scotia,2005,2005,Single Year,Growing,Lab,Incubation,Swine,Whole herd,Indoor,NA,Liquid,NA,Field,NA,F,F,T,T,Med,NA,NA,NA,NA
 214,Mkhabela,2006,Plant and soil,Nova Scotia,NA,NA,Single Year,Growing,Field,Incubation,Swine,Whole herd,Indoor,NA,Liquid,NA,Field,NA,F,F,T,T,Med,NA,NA,NA,NA
 215,Rochette,2006,Soil Science Society of America Journal,Quebec,2002,2003,Multiple Years,Growing,Field,Soil chamber,Dairy Cattle,Whole herd,Indoor,NA,"Liquid, Solid",Stockpile,Field,Annual crop,T,F,F,F,"Med, Fine",Spring,NA,NA,NA
-216,Lague,2005,Transactions of the American Society of Agricultural Engineers,Saskatchewan,2001,2003,Multiple Years,Growing,Farm,Soil chamber,Swine,"Finishers, Growers",Indoor,NA,Liquid,Cover,Storage,NA,T,T,T,F,NA,NA,NA,NA,NA
+216,Laguë,2005,Transactions of the American Society of Agricultural Engineers,Saskatchewan,2001,2003,Multiple Years,Growing,Farm,Soil chamber,Swine,"Finishers, Growers",Indoor,NA,Liquid,Cover,Storage,NA,T,T,T,F,NA,NA,NA,NA,NA
 217,Pattey,2005,Nutrient Cycling in Agroecosystems,Ontario,2003,2003,Multiple Years,Growing,Pilot,Soil chamber,"Beef Cattle, Dairy Cattle",Whole herd,Indoor,NA,"Liquid, Solid","Compost, Stockpile",Storage,NA,T,T,T,F,NA,NA,NA,NA,NA
 218,Pennock,2005,Canadian Journal of Soil Science,Saskatchewan,2001,2002,Single Year,Non-Growing,Field,Soil chamber,Beef Cattle,NA,NA,NA,NA,NA,Field,Annual crop,F,F,T,F,NA,NA,NA,NA,NA
 219,Clark,2005,Journal of Environmental Quality,Alberta,2003,2004,Single Year,Year-Round,Pilot,Incubation,Swine,Whole herd,Indoor,Diet,Liquid,"Agitation, Digester",Storage,NA,T,T,T,F,NA,NA,NA,NA,NA
