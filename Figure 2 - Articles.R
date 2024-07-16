@@ -34,7 +34,7 @@ GHG.storage$Region <- factor(GHG.storage$Region,
 GHG.storage$GHG <- factor(GHG.storage$GHG, levels = c("CH₄","N₂O","CH₄, N₂O"))
 
 # Create bubble chart
-Figure <- ggplot(GHG.storage, aes(x = Region, y = paste(GHG), color = Manure.type, size = Number)) +
+Figure2 <- ggplot(GHG.storage, aes(x = Region, y = paste(GHG), color = Manure.type, size = Number)) +
   geom_point() +
   labs(x = "Region", y = "GHG", color = "Manure type", size = "Number") +
   scale_color_manual(values = c("Liquid" ="deepskyblue2", "Liquid, Solid" = "goldenrod",
@@ -58,9 +58,9 @@ Figure <- ggplot(GHG.storage, aes(x = Region, y = paste(GHG), color = Manure.typ
                               "Newfoundland", "Multiple")) +
   scale_size_continuous(range = c(3,10)) +
   guides(color = guide_legend(override.aes = list(size = 5)))
-Figure
+Figure2
 
 #Export file
-ggsave("output/Figure 2 - Bubble chart articles CH4 and N2O.png", Figure,
+ggsave("output/Figure 2 - Bubble chart articles CH4 and N2O.png", Figure2,
        width = 24, height = 10, units = "cm",
        dpi = 300)

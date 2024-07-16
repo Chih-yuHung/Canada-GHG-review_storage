@@ -68,7 +68,7 @@ Study.province.p$`Manure type`[Study.province.p$`Manure type` == 'Solid'] <- "So
 
 
 
-#Make Table 5
+#Make Table 2
 N2O.Table5 <- rbind(Study.total, Study.province.p, N2O.p)
 gt_N2O.Table5 <-
   gt(N2O.Table5) %>%
@@ -104,4 +104,4 @@ gt_N2O.Table5
 
 #Export file
 gt_N2O.Table5 %>%
-  gtsave("Table5 - Manure management emission.docx")
+  gtsave("Table 2 - Manure management emission N2O.docx")

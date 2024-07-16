@@ -171,9 +171,8 @@ gt_removal_freq_empt <-
     rows = 1:9,
     decimals = 1,
     use_seps = TRUE)
-
 gt_removal_freq_empt
   
 #Export file
 gt_removal_freq_empt %>%
-  gtsave("Table4 - Frequency of removal and proportion removed.docx")
+  gtsave("Table 4 - Frequency of removal and proportion removed.docx")
