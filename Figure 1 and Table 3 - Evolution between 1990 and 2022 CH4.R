@@ -96,8 +96,6 @@ gt_CH4_Change <-
 
 gt_CH4_Change
 
-
-
 #Export table 3 Change between 2005 and 2022
 gt_CH4_Change %>%
   gtsave("Table3 - Change in CH4 emissions and animals between 2005 and 2022.docx")

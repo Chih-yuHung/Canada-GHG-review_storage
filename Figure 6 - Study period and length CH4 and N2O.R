@@ -197,8 +197,8 @@ period_data_N2O <- GHG.storage.N2O %>%
   na.omit()%>%
   mutate(Percentage = Number / sum(Number) * 100)
 
-sum(period_data_N2O$Number[period_data_N2O$Period == "Single Year"]) #41
-sum(period_data_N2O$Number[period_data_N2O$Period == "Multiple Years"]) #3
+sum(period_data_N2O$Number[period_data_N2O$Period == "Single Year"]) #41 93.2%
+sum(period_data_N2O$Number[period_data_N2O$Period == "Multiple Years"]) #3 6.8%
 
 
 

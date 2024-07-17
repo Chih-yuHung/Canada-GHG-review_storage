@@ -45,6 +45,10 @@ Treat_data_CH4$Treatment <- factor(Treat_data_CH4$Treatment,
                                               "Removal","Solid-Liquid Separation","Stockpile"))
 
 tapply(Treat_data_CH4$Number,Treat_data_CH4$Treatment,sum)
+#No treatment #63 27.4%, Acidification #5 2.2%, Additives #1 0.4%, Agitation #21 9.1%, 
+#Antibiotics #3 1.3%, Compost #22 9.6%, Cover #4 1.7%, Digester #55 23.9%, 
+#Hydrolysis #1 0.4%, Nutrient recovery #1 0.4%, Removal #21 9.1%, 
+#Solid-Liquid Separation #20 8.7%, Stockpile #13 5.7%, Total #230 100%
 
 #separate to liquid and solid manure.
 Treat_data_liquid <- GHG.storage.CH4[grep("Liquid", GHG.storage.CH4$Manure.type),]
@@ -65,11 +69,10 @@ Treat_data_liquid$Treatment <- factor(Treat_data_liquid$Treatment,
                                                 "Digester", "Hydrolysis","Nutrient recovery",
                                                 "Removal","Solid-Liquid Separation","Stockpile"))
 tapply(Treat_data_liquid$Number,Treat_data_liquid$Treatment,sum)
-#Changes in Excel
-#No treatment #17 19.3%, Acidification #3 3.4%, Additives #1 1.1%, Agitation #14 15.9%, 
-#Antibiotics #3 3.4%, Compost #3 3.4%, Cover #4 4.5%, Digester #19 21.6%, 
-#Hydrolysis #0 0.0%, Nutrient recovery #1 1.1%, Removal #11 12.5%, 
-#Solid-Liquid Separation #12 13.6%, Stockpile #0 0%, Total #88 100%
+#No treatment #40 27.0%, Acidification #4 2.7%, Additives #1 0.7%, Agitation #18 12.2%, 
+#Antibiotics #3 2.0%, Compost #3 2.0%, Cover #3 2.0%, Digester #42 28.4%, 
+#Hydrolysis #0 0.0%, Nutrient recovery #1 0.7%, Removal #17 11.5%, 
+#Solid-Liquid Separation #16 10.8%, Stockpile #0 0%, Total #148 100%
 
 Treat_data_solid <- Treat_data[grep("Solid", Treat_data$Manure.type),]
 Treat_data_solid <- Treat_data_solid %>%
@@ -89,11 +92,10 @@ Treat_data_solid$Treatment <- factor(Treat_data_solid$Treatment,
                                               "Digester", "Hydrolysis","Nutrient recovery",
                                               "Removal","Solid-Liquid Separation","Stockpile"))
 tapply(Treat_data_solid$Number,Treat_data_solid$Treatment,sum)
-#Changes in Excel
-#No treatment #17 19.3%, Acidification #3 3.4%, Additives #1 1.1%, Agitation #14 15.9%, 
-#Antibiotics #3 3.4%, Compost #3 3.4%, Cover #4 4.5%, Digester #19 21.6%, 
-#Hydrolysis #0 0.0%, Nutrient recovery #1 1.1%, Removal #11 12.5%, 
-#Solid-Liquid Separation #12 13.6%, Stockpile #0 0%, Total #88 100%
+#No treatment #24 28.2%, Acidification #1 1.2%, Additives #0 0.0%, Agitation #3 3.5%, 
+#Antibiotics #0 0.0%, Compost #19 22.4%, Cover #1 1.2%, Digester #13 15.3%, 
+#Hydrolysis #1 1.2%, Nutrient recovery #0 0.0%, Removal #4 4.7%, 
+#Solid-Liquid Separation #4 4.7%, Stockpile #15 17.6%, Total #85 100%
 
 
 
@@ -114,11 +116,10 @@ Treat_data_N2O$Treatment <- factor(Treat_data_N2O$Treatment,
                                           "Removal","Solid-Liquid Separation","Stockpile"))
 
 tapply(Treat_data_N2O$Number,Treat_data_N2O$Treatment,sum)
-#Changes in Excel
-#No treatment #41 37.6%, Acidification #4 3.7%, Additives #0 0.0%, Agitation #8 7.3%, 
-#Antibiotics #0 0.0%, Compost #19 17.4%, Cover #4 3.7%, Digester #7 6.4%, 
-#Hydrolysis #0 0.0%, Nutrient recovery #1 0.9%, Removal #6 5.5%, 
-#Solid-Liquid Separation #7 6.4%, Stockpile #12 11.0%, Total #109 100%
+#No treatment #44 38.6%, Acidification #4 3.5%, Additives #0 0.0%, Agitation #8 7.0%, 
+#Antibiotics #0 0.0%, Compost #19 16.7%, Cover #4 3.5%, Digester #7 6.1%, 
+#Hydrolysis #0 0.0%, Nutrient recovery #1 0.9%, Removal #6 5.3%, 
+#Solid-Liquid Separation #7 6.1%, Stockpile #14 12.3%, Total #114 100%
 
 #separate to liquid and solid manure.
 Treat_data_liquid_N2O <- GHG.storage.N2O[grep("Liquid", GHG.storage.N2O$Manure.type),]
@@ -139,11 +140,10 @@ Treat_data_liquid_N2O$Treatment <- factor(Treat_data_liquid_N2O$Treatment,
                                               "Digester", "Hydrolysis","Nutrient recovery",
                                               "Removal","Solid-Liquid Separation","Stockpile"))
 tapply(Treat_data_liquid_N2O$Number,Treat_data_liquid_N2O$Treatment,sum)
-#Changes in Excel
-#No treatment #26 49.1%, Acidification #3 5.7%, Additives #0 0.0%, Agitation #7 13.2%, 
-#Antibiotics #0 0.0%, Compost #1 1.9%, Cover #3 5.7%, Digester #5 9.4%, 
-#Hydrolysis #0 0.0%, Nutrient recovery #1 1.9%, Removal #3 5.7%, 
-#Solid-Liquid Separation #4 7.5%, Stockpile #0 0%, Total #53 100%
+#No treatment #27 50.0%, Acidification #3 5.6%, Additives #0 0.0%, Agitation #7 13.0%, 
+#Antibiotics #0 0.0%, Compost #1 1.9%, Cover #3 5.6%, Digester #5 9.3%, 
+#Hydrolysis #0 0.0%, Nutrient recovery #1 1.9%, Removal #3 5.6%, 
+#Solid-Liquid Separation #4 7.4%, Stockpile #0 0%, Total #54 100%
 
 Treat_data_solid_N2O <- GHG.storage.N2O[grep("Solid", GHG.storage.N2O$Manure.type),]
 Treat_data_solid_N2O <- Treat_data_solid_N2O %>%
@@ -163,11 +163,10 @@ Treat_data_solid_N2O$Treatment <- factor(Treat_data_solid_N2O$Treatment,
                                                     "Digester", "Hydrolysis","Nutrient recovery",
                                                     "Removal","Solid-Liquid Separation","Stockpile"))
 tapply(Treat_data_solid_N2O$Number,Treat_data_solid_N2O$Treatment,sum)
-#Changes in Excel
-#No treatment #17 26.8%, Acidification #3 1.8%, Additives #0 0.0%, Agitation #1 1.8%, 
-#Antibiotics #0 0.0%, Compost #18 32.1%, Cover #1 1.8%, Digester #2 3.6%, 
-#Hydrolysis #0 0.0%, Nutrient recovery #0 0.0%, Removal #3 5.4%, 
-#Solid-Liquid Separation #3 5.4%, Stockpile #12 21.4%, Total #56 100%
+#No treatment #16 27.1%, Acidification #1 1.7%, Additives #0 0.0%, Agitation #1 1.7%, 
+#Antibiotics #0 0.0%, Compost #18 30.5%, Cover #1 1.7%, Digester #2 3.4%, 
+#Hydrolysis #0 0.0%, Nutrient recovery #0 0.0%, Removal #3 5.1%, 
+#Solid-Liquid Separation #3 5.1%, Stockpile #14 23.7%, Total #59 100%
 
 
 

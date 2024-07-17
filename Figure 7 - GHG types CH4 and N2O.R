@@ -4,7 +4,7 @@ library(tidyverse); library(ggpubr)
 
 #read data
 GHG.CH4 <- read.csv("input/Canada GHG storage lit review data 20240611.csv",header = T)
-#obtain studies with field measurement 
+#obtain studies with storage measurement 
 GHG.storage <- GHG.CH4[grepl("Storage", GHG.CH4$GHG.source),]
 
 # #GHG types

@@ -32,6 +32,17 @@ province_abbreviations <- c("Alberta" = "AB",
                             "Nunavut" = "NU",
                             "Yukon" = "YT")
 
+#Count
+Tech_data_both <- GHG.storage %>%
+  separate_rows(Technique, sep = ",\\s*")
+Tech_data_both[Tech_data_both$Technique=='Soil chamber',"Technique"] <- "Chamber"
+Tech_data_both[Tech_data_both$Technique=='Animal chamber',"Technique"] <- "Chamber"
+Tech_data_both <- Tech_data_both %>%
+  group_by(Technique) %>%
+  summarise(Number = n()) 
+  
+
+
 #CH4
 GHG.storage.CH4 <- GHG.storage[GHG.storage$CH4 == TRUE,]
 
@@ -56,8 +67,8 @@ Tech_data$Technique <- factor(Tech_data$Technique,
                               levels = c("Chamber", "Incubation", "Micrometeorology", 
                                          "Mixed", "Modelling"))
 tapply(Tech_data$Number,Tech_data$Technique,sum)
-#Animal chamber #6 4.2%, Incubation #43 29.2%, Micrometeorology #23 16.0%, 
-#Mixed #17 13.2%, Modelling #16 11.1%, Soil chamber #38 26.4%.
+#Chamber #44 30.6%, Incubation #42 29.2%, Micrometeorology #23 16.0%, 
+#Mixed #19 13.2%, Modelling #16 11.1%.
 
 #separate indoor and outdoor.
 GHG.storage.CH4 <- GHG.storage.CH4 %>%
@@ -120,8 +131,8 @@ Tech_data_N2O$Technique <- factor(Tech_data_N2O$Technique,
                                   levels = c("Chamber", "Incubation", "Micrometeorology", 
                                              "Mixed", "Modelling"))
 tapply(Tech_data_N2O$Number,Tech_data_N2O$Technique,sum)
-#Chamber #35 50.0%, Incubation #3 4.3%, Micrometeorology #5 7.1%, 
-#Mixed #19 27.1%, Modelling #8 11.4%.
+#Chamber #35 47.9%, Incubation #4 5.5%, Micrometeorology #6 8.2%, 
+#Mixed #19 26.0%, Modelling #9 12.3%.
 
 #separate indoor and outdoor.
 GHG.storage.N2O <- GHG.storage.N2O %>%
@@ -134,7 +145,7 @@ Tech_method_N2O <- GHG.storage.N2O %>%
   group_by(Pub..year) %>%
   mutate(Percentage = Number / sum(Number) * 100)
 tapply(Tech_method_N2O$Number,Tech_method_N2O$Collection.Setting,sum)
-#Indoor #60 75.0%, Outdoor #20 25.0%.
+#Indoor #63 75.0%, Outdoor #21 25.0%.
 
 #Separate by province
 Tech_province_N2O <- GHG.storage.N2O %>%
