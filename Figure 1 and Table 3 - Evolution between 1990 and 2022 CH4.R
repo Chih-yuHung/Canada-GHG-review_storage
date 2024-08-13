@@ -1,6 +1,43 @@
 #This script looks at the evolution of emissions between 1990 and 2022
 library(tidyverse); library(gt)
 
+#NIR N2O data, convert to kT CO2e
+N2O <- read_csv("input/N2O_summary_Canada.csv")
+
+#Make rows "Other" and "Total"
+N2O_Livestock_Other <- N2O %>%
+  filter(grepl('Buffalo|Camels|Deer|Elk|Fox|Fur-bearing Animals|Goat|Mink|
+               Llama and alpaca|Mules and Asses|Rabbit|Wild boars|Others',Livestock)) %>%
+  add_row(Livestock = "Other", !!!colSums(.[5:37], na.rm = TRUE)) %>%
+  slice(n())
+N2O <- N2O %>%
+  filter(grepl('Non-dairy cattle|Dairy cattle|Swine|Poultry|Horses|Sheep',Livestock))
+N2O_Evolution <- bind_rows(N2O,N2O_Livestock_Other) %>%
+  add_row(Livestock = "Total", !!!colSums(.[2:37]))
+
+#Change names of livestock
+Livestock_Name <- c("Non-dairy cattle"="Beef cattle",
+                    "Dairy cattle"="Dairy cattle",
+                    "Swine"="Swine",
+                    "Poultry"="Poultry", 
+                    "Horses"="Horse",
+                    "Other"="Other",
+                    "Sheep"="Sheep",
+                    "Total"="Total")
+N2O_Evolution$Livestock <- as.character(Livestock_Name[N2O_Evolution$Livestock])
+N2O_Change <- N2O_Evolution %>%
+  select('Livestock', '2005', '2022') %>%
+  mutate(across('2005':'2022', ~ .x * 265))
+
+# Make column for the change in emissions of N2O
+N2O_Change$'Change in N₂O emissions (kt CO₂e)' <- (N2O_Change$'2022' - N2O_Change$'2005')
+N2O_Change$'Change in N₂O emissions (%)' <- (N2O_Change$'Change in N₂O emissions (kt CO₂e)' / N2O_Change$'2005' * 100)
+N2O_Change <- N2O_Change %>%
+  select(c('Livestock','N₂O emissions in 2005 (kt CO₂e)' = '2005', 'N₂O emissions in 2022 (kt CO₂e)' = '2022',
+           'Change in N₂O emissions (%)'))
+N2O_Change <- N2O_Change %>%
+  arrange(factor(Livestock, levels = c("Beef Cattle","Dairy Cattle","Swine","Poultry","Horse","Sheep","Other","Total")))
+
 #NIR CH4 data, convert to kT CO2e
 CH4 <- read.csv("input/CH4_Provincial_summary_manure.csv", header = TRUE)
 CH4 <- CH4 %>%
@@ -30,11 +67,9 @@ CH4 <- CH4 %>%
 CH4_Evolution <- bind_rows(CH4,CH4_Livestock_Other) %>%
   add_row(EF_Category_Name = "Total", !!!colSums(.[3:35]))
 
-
-
-#Change names of livestocks
-Livestock_Name <- c("Non-Dairy Cattle"="Beef Cattle",
-                    "Dairy Cattle"="Dairy Cattle",
+#Change names of livestock
+Livestock_Name <- c("Non-Dairy Cattle"="Beef cattle",
+                    "Dairy Cattle"="Dairy cattle",
                     "Swine"="Swine",
                     "Poultry"="Poultry", 
                     "Horse"="Horse",
@@ -47,14 +82,12 @@ CH4_Evolution <- CH4_Evolution %>%
            '1999','2000','2001','2002','2003','2004','2005','2006','2007','2008',
            '2009','2010','2011','2012','2013','2014','2015','2016','2017','2018',
            '2019','2020','2021','2022'))
-CH4_Evolution <- CH4_Evolution %>%
-  arrange(factor(Livestock, levels = c("Beef Cattle","Dairy Cattle","Swine","Poultry","Horse","Sheep","Other","Total")))
 
 
 
 #Table 3 Change between 2005 and 2022
 CH4_Change <- CH4_Evolution %>%
-  select(c('Livestock','2005','2022'))
+  select(c('Livestock', '2005', '2022'))
 
 # Add animal count
 AGR_census <- read_csv("input/Canada_Census_of_Agriculture_2006_2021.csv",
@@ -65,40 +98,57 @@ AGR_census <- AGR_census %>%
   add_row(Livestock = "Other") %>%
   add_row(Livestock = "Total")
 
+#Change names of livestock
+Livestock_Name <- c("Beef Cattle"="Beef cattle",
+                    "Dairy Cattle"="Dairy cattle",
+                    "Swine"="Swine",
+                    "Poultry"="Poultry", 
+                    "Horse"="Horse",
+                    "Other"="Other",
+                    "Sheep"="Sheep",
+                    "Total"="Total")
+AGR_census$Livestock <- as.character(Livestock_Name[AGR_census$Livestock])
+
 # Make columns for the changes
 AGR_census$'Change in number of animals' <- (AGR_census$'Animal (2021)' - AGR_census$'Animal (2006)')
-AGR_census$'Change in number of animals (%)' <- (AGR_census$'Change in number of animals' / AGR_census$'Animal (2006)' * 100)
-CH4_Change$'Change in emissions (kT CO2 eq)' <- (CH4_Change$'2022' - CH4_Change$'2005')
-CH4_Change$'Change in emissions (%)' <- (CH4_Change$'Change in emissions (kT CO2 eq)' / CH4_Change$'2005' * 100)
-CH4_Change <- cbind(CH4_Change, AGR_census)
-CH4_Change <- CH4_Change %>%
-  select(c('Livestock','CH4 emissions in 2005 (kT CO2 eq)' = '2005', 'Animal count (2006)' = 'Animal (2006)',
-           'CH4 emissions in 2022 (kT CO2 eq)' = '2022'), 'Animal count (2021)' = 'Animal (2021)',
-           'Change in emissions (%)','Change in number of animals (%)')
+AGR_census$'Change in animal population (%)' <- (AGR_census$'Change in number of animals' / AGR_census$'Animal (2006)' * 100)
+CH4_Change$'Change in emissions (kt CO2 eq)' <- (CH4_Change$'2022' - CH4_Change$'2005')
+CH4_Change$'Change in CH₄ emissions (%)' <- (CH4_Change$'Change in emissions (kt CO2 eq)' / CH4_Change$'2005' * 100)
+Change <- merge(CH4_Change, N2O_Change, by="Livestock")
+Change <- merge(Change, AGR_census, by="Livestock") 
+Change <- Change %>%
+  select(c('Livestock','CH₄ emissions in 2005 (kt CO₂e)' = '2005','CH₄ emissions in 2022 (kt CO₂e)' = '2022',
+           'Change in CH₄ emissions (%)', 'N₂O emissions in 2005 (kt CO₂e)',
+           'N₂O emissions in 2022 (kt CO₂e)','Change in N₂O emissions (%)',
+           'Animal population in 2006' = 'Animal (2006)', 'Animal population in 2021' = 'Animal (2021)',
+           'Change in animal population (%)'))
+
+Change <- Change %>%
+  arrange(factor(Livestock, levels = c("Beef cattle","Dairy cattle","Swine","Poultry","Horse","Sheep","Other","Total")))
 
 #GT Table 3
-gt_CH4_Change <- 
-  gt(CH4_Change) %>%
+gt_Change <- 
+  gt(Change) %>%
   fmt_number(
-    columns = 2:7,
+    columns = 2:10,
     decimals = 1,
     use_seps = TRUE) %>%
   fmt_integer(
-    columns = c(3,5),
+    columns = c(8,9),
     use_seps = TRUE) %>%
   tab_footnote(
     footnote = md("To avoid any confusion, animals were not counted for other 
                   because of the large diversity in animal size within this category."),
-    locations = cells_body(columns = Livestock,  rows = 7)) %>%
+    locations = cells_body(columns = Livestock,  rows = 8)) %>%
   tab_footnote(
     footnote = "NA: Not available")%>%
   opt_footnote_marks(marks = "letters")
 
-gt_CH4_Change
+gt_Change
 
 #Export table 3 Change between 2005 and 2022
-gt_CH4_Change %>%
-  gtsave("Table3 - Change in CH4 emissions and animals between 2005 and 2022.docx")
+gt_Change %>%
+  gtsave("Table3 - Change in CH4 and N2O emissions and animals between 2005 and 2022.docx")
 
 
 
@@ -125,8 +175,8 @@ Graph_Evolution <-
              group = Livestock,
              color = Livestock,
              factor(group))) +
-  geom_line(lwd =1.1) +
-  labs(x = "Year", y = "CH4 emissions (kT CO2 eq)") +
+  geom_line(lwd =1.1) + 
+  labs(x = "Year", y = html("CH₄ emissions (kT CO₂e)")) +
   scale_color_manual(values = c("Beef Cattle" = "violetred1", "Dairy Cattle" = "deepskyblue2", 
                                 "Swine" = "lightpink1", "Poultry" = "goldenrod",
                                 "Horse" = "darkmagenta", "Sheep" = "limegreen", 
@@ -140,8 +190,8 @@ Graph_Evolution <-
         legend.title = element_text(size = 14),  # Adjust legend title font size
         legend.text = element_text(size = 12),
         axis.line = element_line(color = "black")) +
-  scale_x_discrete(breaks = seq(1990, 2024 , by = 5),
-                   expand = c(0, 0)) +
+  scale_x_discrete(breaks = seq(1990, 2030 , by = 5),
+                   expand = expansion(mult = c(0, 0.04))) +
   geom_vline(xintercept = c('2005','2022'),
              lwd = 1.1,
              color = "grey") 

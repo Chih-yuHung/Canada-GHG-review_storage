@@ -203,17 +203,17 @@ Figure5a <- ggplot(Treat_data_liquid, aes(x = Pub..year, y = Treat, color = Trea
         axis.line = element_line(color = "black")) +
   theme(axis.title.x = element_text(size = 12)) +
   scale_y_continuous(limits = c(0, 42), 
-                     breaks = seq(0, 42, by = 2),
+                     breaks = seq(0, 42, by = 5),
                      expand = c(0, 0)) +
   scale_x_continuous(limits = c(1990, 2024), 
                      breaks = seq(1990, 2024 , by = 5),
                      expand = c(0, 0))
 Figure5a
 
-Figure5b <- ggplot(Treat_data_solid, aes(x = Pub..year, y = Treat, color = Treatment)) +
+Figure5c <- ggplot(Treat_data_solid, aes(x = Pub..year, y = Treat, color = Treatment)) +
   geom_line() +
   geom_point() +
-  labs(x = "Publication Year", y = "Study count", title = "(b) CH₄ from solid manure") +
+  labs(x = "Publication Year", y = "Study count", title = "(c) CH₄ from solid manure") +
   scale_color_manual(values = c("No treatment" = "black", "Acidification" = "turquoise1", 
                                "Additives" = "deepskyblue2" , "Agitation" = "violet",
                                "Antibiotics" = "darkmagenta","Compost" = "violetred1",
@@ -233,17 +233,17 @@ Figure5b <- ggplot(Treat_data_solid, aes(x = Pub..year, y = Treat, color = Treat
         axis.line = element_line(color = "black")) +
   theme(axis.title.x = element_text(size = 12)) +
   scale_y_continuous(limits = c(0, 42), 
-                     breaks = seq(0, 42, by = 2),
+                     breaks = seq(0, 42, by = 5),
                      expand = c(0, 0)) +
   scale_x_continuous(limits = c(1990, 2024), 
                      breaks = seq(1990, 2024 , by = 5),
                      expand = c(0, 0))
-Figure5b
+Figure5c
 
-Figure5c <- ggplot(Treat_data_liquid_N2O, aes(x = Pub..year, y = Treat, color = Treatment)) +
+Figure5b <- ggplot(Treat_data_liquid_N2O, aes(x = Pub..year, y = Treat, color = Treatment)) +
   geom_line() +
   geom_point() +
-  labs(x = "Publication Year", y = "Study count", title = "(c) N₂O from liquid manure") +
+  labs(x = "Publication Year", y = "Study count", title = "(b) N₂O from liquid manure") +
   scale_color_manual(values = c("No treatment" = "black", "Acidification" = "turquoise1", 
                                 "Additives" = "deepskyblue2" , "Agitation" = "violet",
                                 "Antibiotics" = "darkmagenta","Compost" = "violetred1",
@@ -262,12 +262,12 @@ Figure5c <- ggplot(Treat_data_liquid_N2O, aes(x = Pub..year, y = Treat, color = 
         axis.line = element_line(color = "black")) +
   theme(axis.title.x = element_text(size = 12)) +
   scale_y_continuous(limits = c(0, 42), 
-                     breaks = seq(0, 42, by = 2),
+                     breaks = seq(0, 42, by = 5),
                      expand = c(0, 0)) +
   scale_x_continuous(limits = c(1990, 2024), 
                      breaks = seq(1990, 2024 , by = 5),
                      expand = c(0, 0))
-Figure5c
+Figure5b
 
 Figure5d <- ggplot(Treat_data_solid_N2O, aes(x = Pub..year, y = Treat, color = Treatment)) +
   geom_line() +
@@ -291,7 +291,7 @@ Figure5d <- ggplot(Treat_data_solid_N2O, aes(x = Pub..year, y = Treat, color = T
         axis.line = element_line(color = "black")) +
   theme(axis.title.x = element_text(size = 12)) +
   scale_y_continuous(limits = c(0, 42), 
-                     breaks = seq(0, 42, by = 2),
+                     breaks = seq(0, 42, by = 5),
                      expand = c(0, 0)) +
   scale_x_continuous(limits = c(1990, 2024), 
                      breaks = seq(1990, 2024 , by = 5),

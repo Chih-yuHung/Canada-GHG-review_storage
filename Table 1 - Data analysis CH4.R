@@ -47,36 +47,12 @@ CH4_Livestock <- CH4_Livestock %>%
 CH4_Livestock <- CH4_Livestock %>%
   arrange(factor(Livestock, levels = c("Beef Cattle","Dairy Cattle","Swine","Poultry","Horse","Sheep","Other","Total")))
 
-#Make row of % of missing studies
-BC <- CH4_Livestock$Livestock %in% c("Sheep", "Other")
-AB_ON <- CH4_Livestock$Livestock %in% c("Horse", "Other")
-SK <- CH4_Livestock$Livestock %in% c("Dairy Cattle", "Horse", "Sheep", "Other")
-MB <- CH4_Livestock$Livestock %in% c("Poultry", "Horse", "Sheep", "Other")
-QC <- CH4_Livestock$Livestock %in% c("Beef Cattle", "Horse", "Sheep", "Other")
-NB_PE_NL <- CH4_Livestock$Livestock %in% c("Beef Cattle", "Dairy Cattle", "Swine", "Poultry", "Horse", "Sheep", "Other")
-NS <- CH4_Livestock$Livestock %in% c("Beef Cattle", "Swine", "Poultry", "Horse", "Sheep", "Other")
-BC <- sum(CH4_Livestock$BC[BC])
-AB <- sum(CH4_Livestock$AB[AB_ON])
-SK <- sum(CH4_Livestock$SK[SK])
-MB <- sum(CH4_Livestock$MB[MB])
-ON <- sum(CH4_Livestock$ON[AB_ON])
-QC <- sum(CH4_Livestock$QC[QC])
-NB <- sum(CH4_Livestock$NB[NB_PE_NL])
-NS <- sum(CH4_Livestock$NS[NS])
-PE <- sum(CH4_Livestock$PE[NB_PE_NL])
-NL <- sum(CH4_Livestock$NL[NB_PE_NL])
-Total <- sum(c(BC,AB,SK,MB,ON,QC,NB,NS,PE,NL))
-Missing_studies <- rbind(CH4_Livestock, data.frame(Livestock = "Emissions from missing studies (kT CO₂ eq)", 
-                                                   Total, BC, AB, SK, MB, ON, QC, NB, NS, PE, NL)) %>%
-  select(c('Livestock','Total','BC','AB','SK','MB','ON','QC','NB','NS','PE','NL'))
-Missing_studies <- as_tibble(Missing_studies)
-Missing_studies_percent <- Missing_studies[9,-1]/Missing_studies[8,-1]*100
-Livestock_col <- data.frame(Livestock = c('Emissions from missing studies (%)'))
-Missing_studies_percent <- cbind(Livestock_col, Missing_studies_percent)
-Missing_studies <- Missing_studies[9,]
-
 #Convert to percentage
 CH4.p.Livestock <- as.data.frame(round(proportions(as.matrix(CH4_Livestock[,3:12]),1)*100,1))
+CH4.p.Livestock <- CH4.p.Livestock %>%
+  mutate(across(.cols = everything(),
+                .fns = ~ case_when(.x <= 0.0 ~ '< 0.1',
+                                   TRUE ~ as.character(.x))))
 CH4_Livestock <- CH4_Livestock %>%
   select(c('Livestock','Total'))
 CH4.p.Livestock <- bind_cols(CH4_Livestock,CH4.p.Livestock)
@@ -133,7 +109,7 @@ Study.province.p <- bind_cols(Study.province,Study.province.p)
 
 
 #Make Table 1
-CH4.Table1 <- rbind(Study.province.total,Study.province.p,CH4.p.Livestock,Missing_studies,Missing_studies_percent)
+CH4.Table1 <- rbind(Study.province.total,Study.province.p,CH4.p.Livestock)
 gt_CH4.Table1 <-
   gt(CH4.Table1) %>%
   tab_row_group(
@@ -145,14 +121,14 @@ gt_CH4.Table1 <-
   tab_row_group(
     label = "Study (%)",
     rows = 2:9) %>%
-  tab_row_group(
-    label = "Emissions from missing studies",
-    rows = 18:19) %>%
-  row_group_order(groups = c("Studies (n)", "Study (%)", "CH₄ emissions (%)","Emissions from missing studies")) %>%
+  row_group_order(groups = c("Studies (n)", "Study (%)", "CH₄ emissions (%)")) %>%
   tab_stubhead(label = "Studies (n)") %>%
   cols_label(
     Livestock = "",
     Total = "Province") %>%
+  cols_align(
+    align = "right",
+    columns = everything()) %>%
   fmt_integer(
     columns = "Total",
     rows = 1:9,
@@ -163,7 +139,7 @@ gt_CH4.Table1 <-
     use_seps = TRUE) %>%
   fmt_number(
     columns = 2:12,
-    rows = 2:19,
+    rows = 2:17,
     decimals = 1,
     use_seps = TRUE) %>%
   tab_footnote(
@@ -173,6 +149,7 @@ gt_CH4.Table1 <-
     locations = cells_stubhead()) %>%
   opt_footnote_marks(marks = "letters")
 gt_CH4.Table1
+
 
 
 #Export file

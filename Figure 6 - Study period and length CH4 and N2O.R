@@ -13,24 +13,22 @@ GHG.storage <- GHG.CH4[grepl("Storage", GHG.CH4$GHG.source),]
 GHG.storage <- GHG.storage[GHG.storage$CH4 == TRUE,]
 GHG.storage <- GHG.storage %>%
   filter(str_detect(Technique, "Micrometeorology")|
-           str_detect(Technique, "Incubation")|
            str_detect(Technique, "Animal chamber")|
            str_detect(Technique, "Soil chamber"))
-sum(na.omit(GHG.storage$Manure.type == "Liquid, Solid")) #18
-sum(na.omit(GHG.storage$Manure.type == "Liquid")) #68
-sum(na.omit(GHG.storage$Manure.type == "Solid")) #22
-sum(na.omit(GHG.storage$Season == "Growing")) #34
+sum(na.omit(GHG.storage$Manure.type == "Liquid, Solid")) #12
+sum(na.omit(GHG.storage$Manure.type == "Liquid")) #38
+sum(na.omit(GHG.storage$Manure.type == "Solid")) #18
+sum(na.omit(GHG.storage$Season == "Growing")) #31
 sum(na.omit(GHG.storage$Season == "Non-Growing")) #8
-sum(na.omit(GHG.storage$Season == "Year-Round")) #30
+sum(na.omit(GHG.storage$Season == "Year-Round")) #25
 
 
 
-#Figure 6a
+#Figure 6c
 #study period
 season_data <- GHG.storage %>%
   separate_rows(Season, sep = ",\\s*") %>%
   filter(str_detect(Technique, "Micrometeorology")|
-           str_detect(Technique, "Incubation")|
            str_detect(Technique, "Animal chamber")|
            str_detect(Technique, "Soil chamber")) %>%
   group_by(Pub..year,Season) %>%
@@ -43,10 +41,10 @@ season_data <- GHG.storage %>%
 
 
 #Make graph
-Figure6a  <- ggplot(data = na.omit(season_data), 
+Figure6c  <- ggplot(data = na.omit(season_data), 
                 aes(x = Pub..year, y = Number, fill = Season)) +
   geom_bar(stat = "identity") +
-  labs(x = "Publication Year", y = "Study Count", title = "(a) CH₄") +
+  labs(x = "Publication Year", y = "Study Count", title = "(c) CH₄") +
   scale_fill_manual(values = c("Growing" = "limegreen", 
                                "Non-Growing" = "deepskyblue2",
                                "Year-Round" = "violet")) +
@@ -63,20 +61,19 @@ Figure6a  <- ggplot(data = na.omit(season_data),
   geom_text(aes(label = paste0(round(Percentage, 0), "%")),
             position = position_stack(vjust = 0.5),
             angle = 90, size = 3) +
-  scale_y_continuous(limits = c(0, 10), 
-                     breaks = seq(0, 10, by = 2),
+  scale_y_continuous(limits = c(0, 8), 
+                     breaks = seq(0, 8, by = 2),
                      expand = c(0, 0)) +
   scale_x_continuous(limits = c(1990, 2024), 
                      breaks = seq(1990, 2024 , by = 5),
                      expand = c(0, 0))
-Figure6a
+Figure6c
 
-#Figure 6b
+#Figure 6a
 #study length
 period_data <- GHG.storage %>%
   separate_rows(Period, sep = ",\\s*") %>%
   filter(str_detect(Technique, "Micrometeorology")|
-           str_detect(Technique, "Incubation")|
            str_detect(Technique, "Animal chamber")|
            str_detect(Technique, "Soil chamber")) %>%
   group_by(Pub..year,Period) %>%
@@ -86,16 +83,16 @@ period_data <- GHG.storage %>%
   na.omit()%>%
   mutate(Percentage = Number / sum(Number) * 100)
 
-sum(period_data$Number[period_data$Period == "Single Year"]) #96 88.9%
-sum(period_data$Number[period_data$Period == "Multiple Years"]) #12 11.1%
+sum(period_data$Number[period_data$Period == "Single Year"]) #57 83.8%
+sum(period_data$Number[period_data$Period == "Multiple Years"]) #11 16.2%
 
 
 
 #Figure for period
-Figure6b <- ggplot(data = na.omit(period_data), 
+Figure6a <- ggplot(data = na.omit(period_data), 
                 aes(x = Pub..year, y = Number, fill = Period)) +
   geom_bar(stat = "identity") +
-  labs(x = "Publication Year", y = "Study Count", fill = "Duration", title = "(b) CH₄") +
+  labs(x = "Publication Year", y = "Study Count", fill = "Duration", title = "(a) CH₄") +
   scale_fill_manual(values = c("Single Year" = "deepskyblue2",
                                "Multiple Years" = "limegreen")) +
   theme_classic() +
@@ -111,13 +108,13 @@ Figure6b <- ggplot(data = na.omit(period_data),
   geom_text(aes(label = paste0(round(Percentage, 0), "%")),
             position = position_stack(vjust = 0.5),
             angle = 90, size = 3) +
-  scale_y_continuous(limits = c(0, 10), 
-                     breaks = seq(0, 10, by = 2),
+  scale_y_continuous(limits = c(0, 8), 
+                     breaks = seq(0, 8, by = 2),
                      expand = c(0, 0)) +
   scale_x_continuous(limits = c(1990, 2024), 
                      breaks = seq(1990, 2024 , by = 5),
                      expand = c(0, 0))
-Figure6b
+Figure6a
 
 
 
@@ -127,24 +124,22 @@ GHG.storage.N2O <- GHG.CH4[grepl("Storage", GHG.CH4$GHG.source),]
 GHG.storage.N2O <- GHG.storage.N2O[GHG.storage.N2O$N2O == TRUE,]
 GHG.storage.N2O <- GHG.storage.N2O %>%
   filter(str_detect(Technique, "Micrometeorology")|
-           str_detect(Technique, "Incubation")|
            str_detect(Technique, "Animal chamber")|
            str_detect(Technique, "Soil chamber"))
 sum(na.omit(GHG.storage.N2O$Manure.type == "Liquid, Solid")) #3
-sum(na.omit(GHG.storage.N2O$Manure.type == "Liquid")) #21
-sum(na.omit(GHG.storage.N2O$Manure.type == "Solid")) #20
-sum(na.omit(GHG.storage.N2O$Season == "Growing")) #25
-sum(na.omit(GHG.storage.N2O$Season == "Non-Growing")) #7
-sum(na.omit(GHG.storage.N2O$Season == "Year-Round")) #10
+sum(na.omit(GHG.storage.N2O$Manure.type == "Liquid")) #18
+sum(na.omit(GHG.storage.N2O$Manure.type == "Solid")) #19
+sum(na.omit(GHG.storage.N2O$Season == "Growing")) #24
+sum(na.omit(GHG.storage.N2O$Season == "Non-Growing")) #6
+sum(na.omit(GHG.storage.N2O$Season == "Year-Round")) #9
 
 
 
-#Figure 6c
+#Figure 6d
 #study period
 season_data_N2O <- GHG.storage.N2O %>%
   separate_rows(Season, sep = ",\\s*") %>%
   filter(str_detect(Technique, "Micrometeorology")|
-           str_detect(Technique, "Incubation")|
            str_detect(Technique, "Animal chamber")|
            str_detect(Technique, "Soil chamber")) %>%
   group_by(Pub..year,Season) %>%
@@ -157,10 +152,10 @@ season_data_N2O <- GHG.storage.N2O %>%
 
 
 #Make graph
-Figure6c  <- ggplot(data = na.omit(season_data_N2O), 
+Figure6d  <- ggplot(data = na.omit(season_data_N2O), 
                  aes(x = Pub..year, y = Number, fill = Season)) +
   geom_bar(stat = "identity") +
-  labs(x = "Publication Year", y = "Study Count", title = "(c) N₂O") +
+  labs(x = "Publication Year", y = "Study Count", title = "(d) N₂O") +
   scale_fill_manual(values = c("Growing" = "limegreen", 
                                "Non-Growing" = "deepskyblue2",
                                "Year-Round" = "violet")) +
@@ -174,20 +169,19 @@ Figure6c  <- ggplot(data = na.omit(season_data_N2O),
   geom_text(aes(label = paste0(round(Percentage, 0), "%")),
             position = position_stack(vjust = 0.5),
             angle = 90, size = 3) +
-  scale_y_continuous(limits = c(0, 10), 
-                     breaks = seq(0, 10, by = 2),
+  scale_y_continuous(limits = c(0, 8), 
+                     breaks = seq(0, 8, by = 2),
                      expand = c(0, 0)) +
   scale_x_continuous(limits = c(1990, 2024), 
                      breaks = seq(1990, 2024 , by = 5),
                      expand = c(0, 0))
-Figure6c
+Figure6d
 
-#Figure 6d
+#Figure 6b
 #study length
 period_data_N2O <- GHG.storage.N2O %>%
   separate_rows(Period, sep = ",\\s*") %>%
   filter(str_detect(Technique, "Micrometeorology")|
-           str_detect(Technique, "Incubation")|
            str_detect(Technique, "Animal chamber")|
            str_detect(Technique, "Soil chamber")) %>%
   group_by(Pub..year,Period) %>%
@@ -197,16 +191,16 @@ period_data_N2O <- GHG.storage.N2O %>%
   na.omit()%>%
   mutate(Percentage = Number / sum(Number) * 100)
 
-sum(period_data_N2O$Number[period_data_N2O$Period == "Single Year"]) #41 93.2%
-sum(period_data_N2O$Number[period_data_N2O$Period == "Multiple Years"]) #3 6.8%
+sum(period_data_N2O$Number[period_data_N2O$Period == "Single Year"]) #37 92.5%
+sum(period_data_N2O$Number[period_data_N2O$Period == "Multiple Years"]) #3 7.5%
 
 
 
 #Figure for period
-Figure6d <- ggplot(data = na.omit(period_data_N2O), 
+Figure6b <- ggplot(data = na.omit(period_data_N2O), 
                 aes(x = Pub..year, y = Number, fill = Period)) +
   geom_bar(stat = "identity") +
-  labs(x = "Publication Year", y = "Study Count", fill = "Duration", title = "(d) N₂O") +
+  labs(x = "Publication Year", y = "Study Count", fill = "Duration", title = "(b) N₂O") +
   scale_fill_manual(values = c("Single Year" = "deepskyblue2",
                                "Multiple Years" = "limegreen")) +
   theme_classic() +
@@ -219,13 +213,13 @@ Figure6d <- ggplot(data = na.omit(period_data_N2O),
   geom_text(aes(label = paste0(round(Percentage, 0), "%")),
             position = position_stack(vjust = 0.5),
             angle = 90, size = 3) +
-  scale_y_continuous(limits = c(0, 10), 
-                     breaks = seq(0, 10, by = 2),
+  scale_y_continuous(limits = c(0, 8), 
+                     breaks = seq(0, 8, by = 2),
                      expand = c(0, 0)) +
   scale_x_continuous(limits = c(1990, 2024), 
                      breaks = seq(1990, 2024 , by = 5),
                      expand = c(0, 0))
-Figure6d
+Figure6b
 
 # combine figures together
 ggsave("output/Figure 6 - Study period and length CH4 and N2O.png",

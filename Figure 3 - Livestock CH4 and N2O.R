@@ -1,6 +1,6 @@
 #To prepare figure for livestock, CH4 and N2O
 #Figure 3
-library(tidyverse);library(ggpubr)
+library(tidyverse);library(ggpubr); library(RColorBrewer)
 
 #CH4
 #read data
@@ -73,7 +73,7 @@ Figure3a <- ggplot(data = na.omit(livestock_data),
   geom_point() +
   labs(x = "Publication Year", y = "Study Count", color = "Animal type", title = "(a) CH₄") +
   scale_color_manual(values = c("Beef Cattle" = "violetred1", "Dairy Cattle" = "deepskyblue2", 
-                               "Swine" = "lightpink1", "Poultry" = "goldenrod",
+                               "Swine" = "grey", "Poultry" = "goldenrod",
                                "Horse" = "darkmagenta", "Sheep" = "limegreen")) +
   theme_classic() + 
   theme(axis.text = element_text(size = 12, color = "black"),
@@ -98,7 +98,7 @@ Figure3b <- ggplot(data = na.omit(livestock_data_N2O),
   geom_point() +
   labs(x = "Publication Year", y = "Study Count", color = "Animal type", title = "(b) N₂O") +
   scale_color_manual(values = c("Beef Cattle" = "violetred1", "Dairy Cattle" = "deepskyblue2", 
-                                "Swine" = "lightpink1", "Poultry" = "goldenrod",
+                                "Swine" = "grey", "Poultry" = "goldenrod",
                                 "Horse" = "darkmagenta", "Sheep" = "limegreen")) +
   theme_classic() +
   theme(axis.text = element_text(size = 12, color = "black"),
@@ -123,7 +123,7 @@ Figure3c <- ggplot(data = na.omit(livestock_data),
            linetype = 0) +
   labs(x = "Publication Year", y = "Study Count", fill = "Animal type") +
   scale_fill_manual(values = c("Beef Cattle" = "violetred1", "Dairy Cattle" = "deepskyblue2", 
-                               "Swine" = "lightpink1", "Poultry" = "goldenrod",
+                               "Swine" = "grey", "Poultry" = "goldenrod",
                                "Horse" = "darkmagenta", "Sheep" = "limegreen")) +
   theme_classic() +
   theme(axis.text = element_text(size = 12, color = "black"),
@@ -154,7 +154,7 @@ Figure3d <- ggplot(data = na.omit(livestock_data_N2O),
            linetype = 0) +
   labs(x = "Publication Year", y = "Study Count", fill = "Animal type") +
   scale_fill_manual(values = c("Beef Cattle" = "violetred1", "Dairy Cattle" = "deepskyblue2", 
-                               "Swine" = "lightpink1", "Poultry" = "goldenrod",
+                               "Swine" = "grey", "Poultry" = "goldenrod",
                                "Horse" = "darkmagenta", "Sheep" = "limegreen")) +
   theme_classic() +
   theme(axis.text = element_text(size = 12, color = "black"),
@@ -182,15 +182,15 @@ Figure3d
 
 #Export figure 2 panels
 ggsave("output/Figure 3 - Livestock CH4 and N2O.png", 
-       ggarrange(Figure2a, Figure2b, 
+       ggarrange(Figure3a, Figure3b, 
                  nrow = 1, ncol = 2,
                  common.legend = TRUE, legend = "bottom"),
        width = 24, height = 12, units = "cm",
        dpi = 300)
 #Export figure 4 panels
 ggsave("output/Figure 3 - Livestock CH4 and N2O (4 panels).png", 
-       ggarrange(ggarrange(Figure2a, Figure2b, ncol = 2, legend = "none"), 
-                 Figure2c, Figure2d,
+       ggarrange(ggarrange(Figure3a, Figure3b, ncol = 2, legend = "none"), 
+                 Figure3c, Figure3d,
                  nrow = 3,
                  common.legend = TRUE, legend = "bottom"),
        width = 24, height = 24, units = "cm",

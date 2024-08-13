@@ -144,16 +144,18 @@ Table.freq.empt <- merge(Table.freq.empt.CH4, Table.freq.empt.N2O, by = 1, all =
 Table.freq.empt <- Table.freq.empt %>%
   replace_na(list("Number of studies.y" = 0)) %>%  
   replace_na(list("Percentage of studies (%).y" = 0))
+Table.freq.empt <- Table.freq.empt %>%
+  arrange(factor(Variable.all, levels = c("(0,35]","(35,60]","(60,85]","(85,100]","1","2","3","> 3","Not specified")))
 
 gt_removal_freq_empt <-
   gt(Table.freq.empt)%>%
   tab_row_group(
-    label = "Removal frequency per year",
+    label = "Emptying efficiency (%)",
     rows = 1:4) %>%
   tab_row_group(
-    label = "Emptying efficiency (%)",
+    label = "Removal frequency per year",
     rows = 5:9) %>%
-  row_group_order(groups = c("Removal frequency per year", "Emptying efficiency (%)")) %>%
+  row_group_order(groups = c("Emptying efficiency (%)", "Removal frequency per year")) %>%
   tab_spanner(
     label = html("CH<sub>4</sub>"),
     columns = c("Number of studies.x", "Percentage of studies (%).x")) %>%

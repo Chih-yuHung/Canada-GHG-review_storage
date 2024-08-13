@@ -1,8 +1,7 @@
-#To prepare figure for techniques, N2O only!
+#To prepare figure for techniques, CH4 only!
 #Figure 1
 library(tidyverse);library(ggplot2)
-library(reshape2);library(scatterpie)
-library(stringr);library(ggpubr)
+library(reshape2);library(ggpubr)
 #read data
 GHG <- read.csv("input/Canada GHG storage lit review data.csv",header = T)
 #obtain studies with field measurement 
@@ -32,7 +31,7 @@ Fig1b <- ggplot(data = na.omit(livestock_data),
   theme(axis.text = element_text(size = 14, colour = "black"),
         axis.title.x = element_text(size = 14),
         axis.title.y = element_text(size = 14),
-        legend.position = c(0.1, 0.9),  # Adjust the legend position
+        legend.position.inside = c(0.1, 0.9),  # Adjust the legend position
         legend.justification = c(0, 1),  # Align the legend to top-left
         legend.title = element_text(size = 14),  # Adjust legend title font size
         legend.text = element_text(size = 12),
@@ -48,6 +47,7 @@ Fig1b <- ggplot(data = na.omit(livestock_data),
                      breaks = seq(1990, 2023 , by = 5),
                      expand = c(0, 0))
 
+Fig1b
 
 ggsave("output/Fig2_livestock.png", Fig1b,
        width = 4800, height = 7200, units = "px",

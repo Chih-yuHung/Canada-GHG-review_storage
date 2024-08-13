@@ -4,10 +4,9 @@ library(tidyverse);library(ggplot2)
 library(reshape2);library(scatterpie)
 library(stringr);library(ggpubr)
 #read data
-GHG <- read.csv("input/Canada GHG storage lit review data.csv",header = T)
+GHG.CH4 <- read.csv("input/Canada GHG storage lit review data 20240513.csv",header = T)
 #obtain studies with field measurement 
 GHG.storage <- GHG[grepl("Storage", GHG$GHG.source),]
-#GHG.field <- GHG.field[!grepl("^Grass$", GHG.field$Field.crop),]
 
 # Define custom colors, cold for indoor, warm for outdoor
 cold_colors <- c("#999999", "#009E73", "#0072B2", "#56B4E9")
@@ -60,7 +59,7 @@ Fig5 <- ggplot(GHG_stacked, aes(x = Pub..year, y = count, fill = variable)) +
   theme(axis.text = element_text(size = 14, colour = "black"),
         axis.title.x = element_text(size = 14),
         axis.title.y = element_text(size = 14),
-        legend.position = c(0.1, 0.9),  # Adjust the legend position
+        legend.position.inside = c(0.1, 0.9),  # Adjust the legend position
         legend.justification = c(0, 1),  # Align the legend to top-left
         legend.title = element_text(size = 14),  # Adjust legend title font size
         legend.text = element_text(size = 12),

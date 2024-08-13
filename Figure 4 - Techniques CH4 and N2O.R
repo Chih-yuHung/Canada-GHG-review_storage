@@ -172,12 +172,14 @@ Tech_province_N2O$Region <- factor(Tech_province_N2O$Region,
 
 #Add province abbreviation
 #Function to replace the provinces
-replace_provinces <- function(province) {
-  abbreviations <- sapply(province, function(x) province_abbreviations[x])
-  return(paste(abbreviations, collapse = ", "))}
+#replace_provinces <- function(province) {
+#  abbreviations <- lapply(province, function(x) province_abbreviations[x])
+#  return(paste(abbreviations, collapse = ", "))}
 # Apply the function to the method column in your dataframe
-Tech_province_CH4$Region <- sapply(Tech_province_CH4$Region, replace_provinces)
-Tech_province_N2O$Region <- sapply(Tech_province_N2O$Region, replace_provinces)
+#Tech_province_CH4$Region <- sapply(Tech_province_CH4$Region, replace_provinces)
+#Tech_province_N2O$Region <- sapply(Tech_province_N2O$Region, replace_provinces)
+#This function does not work
+province <- c("BC", "AB", "SK", "MB", "ON", "QC", "NB", "NS", "PE", "NL")
 
 #Figure on techniques
 Figure4a <- ggplot(Tech_data, aes(x = Pub..year, y = Tech, color = Technique)) +
@@ -197,7 +199,7 @@ Figure4a <- ggplot(Tech_data, aes(x = Pub..year, y = Tech, color = Technique)) +
         legend.text = element_text(size = 12),
         axis.line = element_line(color = "black")) +
   scale_y_continuous(limits = c(0, 45), 
-                     breaks = seq(0, 45, by = 2),
+                     breaks = seq(0, 45, by = 5),
                      expand = c(0, 0))+
   scale_x_continuous(limits = c(1990, 2024), 
                      breaks = seq(1990, 2024 , by = 5),
@@ -221,7 +223,7 @@ Figure4b <- ggplot(Tech_data_N2O, aes(x = Pub..year, y = Tech, color = Technique
         legend.text = element_text(size = 12),
         axis.line = element_line(color = "black")) +
   scale_y_continuous(limits = c(0, 45), 
-                     breaks = seq(0, 45, by = 2),
+                     breaks = seq(0, 45, by = 5),
                      expand = c(0, 0))+
   scale_x_continuous(limits = c(1990, 2024), 
                      breaks = seq(1990, 2024 , by = 5),
@@ -250,10 +252,9 @@ Figure4c <- ggplot(Tech_province_CH4,
             size = 3,
             color = "black") +
   scale_y_continuous(limits = c(0, 45), 
-                     breaks = seq(0, 45, by = 2),
-                     expand = c(0, 0))+
-  scale_x_discrete(limits = c("BC","AB","SK","MB","ON","QC","NB","NS","PE","NL"),
-                   labels = function(x) stringr::str_wrap(x, width = 20))
+                     breaks = seq(0, 45, by = 5),
+                     expand = c(0, 0)) +
+  scale_x_discrete(labels = province)
 Figure4c
 
 Figure4d <- ggplot(Tech_province_N2O, 
@@ -278,13 +279,20 @@ Figure4d <- ggplot(Tech_province_N2O,
             size = 3,
             color = "black") +
   scale_y_continuous(limits = c(0, 45), 
-                     breaks = seq(0, 45, by = 2),
-                     expand = c(0, 0))+
-  scale_x_discrete(limits = c("BC","AB","SK","MB","ON","QC","NB","NS","PE","NL"),
-                   labels = function(x) stringr::str_wrap(x, width = 20))
+                     breaks = seq(0, 45, by = 5),
+                     expand = c(0, 0)) +
+  scale_x_discrete(labels = province)
 Figure4d
 
 #Export figure
+#2 panels
+ggsave("output/Figure 4a, 4b - Methods CH4 and N2O.png", 
+       ggarrange(Figure4a, Figure4b,
+                 ncol = 2, nrow = 1,
+                 common.legend = TRUE, legend = "bottom"),
+       width = 24, height = 12, units = "cm",
+       dpi = 300)
+
 ggsave("output/Figure 4 - Methods CH4 and N2O.png", 
        ggarrange(Figure4a, Figure4b, Figure4c, Figure4d,
                  ncol = 2, nrow = 2,

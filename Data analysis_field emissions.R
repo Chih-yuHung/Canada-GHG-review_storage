@@ -15,8 +15,8 @@ GHG.field <- GHG.field[GHG.field$Region!="National",]
 GHG.field <- GHG.field %>%
              drop_na(Livestock)
 #replace "National" to every provinces
-#abandoned becasue nationa studies used modelling or other method only
-#This substaintially increased the study count in some provinces
+#abandoned because national studies used modelling or other method only
+#This substantially increased the study count in some provinces
 #National<-paste(unique(GHG.field$Region)[c(-1,-3)], collapse = ", ")
 #GHG.field$Region[GHG.field$Region == "National"] <- National
 

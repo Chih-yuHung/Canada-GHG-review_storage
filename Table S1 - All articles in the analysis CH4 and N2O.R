@@ -11,14 +11,14 @@ GHG.storage <- GHG.storage %>%
 
 #Select columns
 GHG.table.CH4 <- GHG.storage %>%
-  select(ID, Author = First.author, Year = Pub..year, Region, Method = Technique, 
-         Livestock, Manure = Manure.type, CH4, N2O)
+  select(ID, Author = First.author, Year = Pub..year, Region, Scale = Research.type, 
+         Method = Technique, Livestock, Manure = Manure.type, CH4, N2O, NH3)
 
 #Put the pub year with authors
 GHG.table.CH4$Authors <- paste(GHG.table.CH4$Author, "et al.,", GHG.table.CH4$Year)
 GHG.table.CH4 <- GHG.table.CH4 %>%
   select(-Author, Year) %>%
-  select(ID, Authors, Region, Livestock, Manure, Method, CH4, N2O, Year)
+  select(ID, Authors, Region, Scale, Livestock, Manure, Method, CH4, N2O, NH3, Year)
 
 #Change name for 1 or 2 authors
 GHG.table.CH4$Authors[GHG.table.CH4$ID == '9'] <- "Benchaar and Hassanat, 2021"
@@ -70,13 +70,17 @@ GHG.table.CH4$Authors[GHG.table.CH4$ID == '265'] <- "VanderZaag and Baldé, 2022
 #Add the GHG types
 GHG.table.CH4 <- GHG.table.CH4 %>%
   mutate(GHG = case_when(
-    CH4 & !N2O ~ "CH₄",
-    !CH4 & N2O ~ "N₂O",
-    CH4 & N2O ~ "CH₄, N₂O",
+    !CH4 & !N2O & NH3 ~ "NH₃",
+    CH4 & !N2O & !NH3 ~ "CH₄",
+    !CH4 & N2O & !NH3 ~ "N₂O",
+    !CH4 & N2O & NH3 ~ "N₂O, NH₃",
+    CH4 & !N2O & NH3 ~ "CH₄, NH₃",
+    CH4 & N2O & !NH3 ~ "CH₄, N₂O",
+    CH4 & N2O & NH3 ~ "CH₄, N₂O, NH₃",
     TRUE ~ "None"))
 
 GHG.table.CH4 <- GHG.table.CH4 %>%
-  select(-CH4, -N2O)
+  select(-CH4, -N2O, -NH3)
 
 #Replace the Method
 #Create a table for conversion
@@ -144,9 +148,12 @@ replace_manure <- function(manure) {
 # Apply the function to the method column in your dataframe
 GHG.table.CH4$Manure <- sapply(GHG.table.CH4$Manure, replace_manure)
 
+#Replace field scale with farm scale
+GHG.table.CH4$Scale[GHG.table.CH4$Scale == 'Field'] <- "Farm"
+
 #Change the column names
-names(GHG.table.CH4) <- c("ID", "Authors and year", "Region", "Livestock", "Manure", 
-                          "Method", "Year", "GHG", "OB", "MD", "MX")
+names(GHG.table.CH4) <- c("ID", "Authors and year", "Region", "Scale", "Livestock", 
+                          "Manure", "Method", "Year", "GHG", "OB", "MD", "MX")
 GHG.table.CH4 <- GHG.table.CH4 %>%
   arrange(factor(Region, levels = c("British Columbia","Alberta","Saskatchewan",
                                     "Manitoba","Ontario","Quebec","New Brunswick",
@@ -191,6 +198,10 @@ gt_GHG.Table.CH4 <-
   tab_footnote(
     footnote = md("Three or more authors are summarized in *et al.*"),
     locations = cells_column_labels(columns = "Authors and year")) %>%
+  tab_footnote(
+    footnote = "Pilot scale studies are studies conducted measurement from manure 
+    storages smaller than local regular manure storage.",
+    locations = cells_column_labels(columns = "Scale")) %>%
   tab_footnote(
     footnote = "NA: Not applicable") %>%
   opt_footnote_marks(marks = "letters")
