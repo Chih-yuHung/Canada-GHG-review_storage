@@ -183,7 +183,7 @@ Treat_data_removal_CH4 <- Treat_data_removal_CH4 %>%
 Figure5a <- ggplot(Treat_data_liquid, aes(x = Pub..year, y = Treat, color = Treatment)) +
   geom_line(show.legend = TRUE) +
   geom_point(show.legend = TRUE) +
-  labs(x = "Publication Year", y = "Study count", title = "(a) CH₄ from liquid manure") +
+  labs(x = "Publication Year", y = "Cumulative study count", title = "(a) CH₄ from liquid manure") +
   scale_color_manual(values = c("No treatment" = "black", "Acidification" = "turquoise1", 
                                "Additives" = "deepskyblue2" , "Agitation" = "violet",
                                "Antibiotics" = "darkmagenta","Compost" = "violetred1",
@@ -213,7 +213,7 @@ Figure5a
 Figure5c <- ggplot(Treat_data_solid, aes(x = Pub..year, y = Treat, color = Treatment)) +
   geom_line() +
   geom_point() +
-  labs(x = "Publication Year", y = "Study count", title = "(c) CH₄ from solid manure") +
+  labs(x = "Publication Year", y = "Cumulative study count", title = "(c) CH₄ from solid manure") +
   scale_color_manual(values = c("No treatment" = "black", "Acidification" = "turquoise1", 
                                "Additives" = "deepskyblue2" , "Agitation" = "violet",
                                "Antibiotics" = "darkmagenta","Compost" = "violetred1",
@@ -243,7 +243,7 @@ Figure5c
 Figure5b <- ggplot(Treat_data_liquid_N2O, aes(x = Pub..year, y = Treat, color = Treatment)) +
   geom_line() +
   geom_point() +
-  labs(x = "Publication Year", y = "Study count", title = "(b) N₂O from liquid manure") +
+  labs(x = "Publication Year", y = "Cumulative study count", title = "(b) N₂O from liquid manure") +
   scale_color_manual(values = c("No treatment" = "black", "Acidification" = "turquoise1", 
                                 "Additives" = "deepskyblue2" , "Agitation" = "violet",
                                 "Antibiotics" = "darkmagenta","Compost" = "violetred1",
@@ -272,7 +272,7 @@ Figure5b
 Figure5d <- ggplot(Treat_data_solid_N2O, aes(x = Pub..year, y = Treat, color = Treatment)) +
   geom_line() +
   geom_point() +
-  labs(x = "Publication Year", y = "Study count", title = "(d) N₂O from solid manure") +
+  labs(x = "Publication Year", y = "Cumulative study count", title = "(d) N₂O from solid manure") +
   scale_color_manual(values = c("No treatment" = "black", "Acidification" = "turquoise1", 
                                 "Additives" = "deepskyblue2" , "Agitation" = "violet",
                                 "Antibiotics" = "darkmagenta","Compost" = "violetred1",

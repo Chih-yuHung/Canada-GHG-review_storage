@@ -113,3 +113,4 @@ ggsave("output/Figure 7 - GHG (no CO2) type by solid and liquid manure.png",
                  ncol = 2, nrow = 1),
        width = 24, height = 12, units = "cm",
        dpi = 300)
+

@@ -37,8 +37,8 @@ GHG.storage$GHG <- factor(GHG.storage$GHG, levels = c("CH₄","N₂O","CH₄, N�
 Figure2 <- ggplot(GHG.storage, aes(x = Region, y = paste(GHG), color = Manure.type, size = Number)) +
   geom_point() +
   labs(x = "Region", y = "GHG", color = "Manure type", size = "Number") +
-  scale_color_manual(values = c("Liquid" ="deepskyblue2", "Liquid, Solid" = "goldenrod",
-                                "Solid" = "violetred1")) +
+  scale_color_manual(values = c("Liquid" = alpha("deepskyblue2", 0.6), "Liquid, Solid" = alpha("goldenrod", 0.6),
+                                "Solid" = alpha("violetred1", 0.6))) +
   theme_classic() +
   theme(axis.text = element_text(size = 12, colour = "black"),
         axis.title.x = element_text(size = 14),

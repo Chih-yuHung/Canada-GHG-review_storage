@@ -4,7 +4,7 @@ library(tidyverse);library(gt)
 #NIR N2O data, convert to kT CO2e
 N2O <- read.csv("input/N2O_emissions_inventory_2022.csv", header = TRUE)
 N2O.eq <- N2O %>%
-  mutate(across(where(is.numeric), function(x) x*298))
+  mutate(across(where(is.numeric), function(x) x*265))
 N2O.eq <- N2O.eq %>%
   data.frame(Provinces = c("Direct N2O Emissions", "Liquid storage", "Solid storage", 
                            "Composting", "Other", "Indirect N2O Emissions", 
@@ -69,8 +69,8 @@ Study.province.p$`Manure type`[Study.province.p$`Manure type` == 'Solid'] <- "So
 
 
 #Make Table 2
-N2O.Table5 <- rbind(Study.total, Study.province.p, N2O.p)
-gt_N2O.Table5 <-
+N2O.Table2 <- rbind(Study.total, Study.province.p, N2O.p)
+gt_N2O.Table2 <-
   gt(N2O.Table5) %>%
   tab_row_group(
     label = "Studies (n)",
@@ -99,9 +99,9 @@ gt_N2O.Table5 <-
     columns = "Total",
     rows = 1:4,
     use_seps = TRUE)
-gt_N2O.Table5
+gt_N2O.Table2
 
 
 #Export file
-gt_N2O.Table5 %>%
+gt_N2O.Table2 %>%
   gtsave("Table 2 - Manure management emission N2O.docx")

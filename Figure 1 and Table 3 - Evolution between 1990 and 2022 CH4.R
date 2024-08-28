@@ -160,8 +160,8 @@ CH4_Evolution_Graph <- CH4_Evolution %>%
     names_to = "Year",
     values_to = "CH4_emissions")
 CH4_Evolution_Graph$Livestock <- factor(CH4_Evolution_Graph$Livestock, 
-                                        levels=c("Total", "Swine", "Beef Cattle", 
-                                                 "Dairy Cattle", "Poultry", "Horse", 
+                                        levels=c("Total", "Swine", "Beef cattle", 
+                                                 "Dairy cattle", "Poultry", "Horse", 
                                                  "Sheep","Other"))
 CH4_Evolution_Graph <- CH4_Evolution_Graph %>%
   as.data.frame() 
@@ -177,8 +177,8 @@ Graph_Evolution <-
              factor(group))) +
   geom_line(lwd =1.1) + 
   labs(x = "Year", y = html("CH₄ emissions (kT CO₂e)")) +
-  scale_color_manual(values = c("Beef Cattle" = "violetred1", "Dairy Cattle" = "deepskyblue2", 
-                                "Swine" = "lightpink1", "Poultry" = "goldenrod",
+  scale_color_manual(values = c("Beef cattle" = "violetred1", "Dairy cattle" = "deepskyblue2", 
+                                "Swine" = "grey", "Poultry" = "goldenrod",
                                 "Horse" = "darkmagenta", "Sheep" = "limegreen", 
                                 "Other" = "violet", "Total" = "gold")) +
   guides(color = guide_legend(title = "Animal type")) +
@@ -194,7 +194,8 @@ Graph_Evolution <-
                    expand = expansion(mult = c(0, 0.04))) +
   geom_vline(xintercept = c('2005','2022'),
              lwd = 1.1,
-             color = "grey") 
+             color = "grey",
+             linetype="dashed") 
 Graph_Evolution
 
 #Export figure

@@ -71,7 +71,7 @@ GHG.removal.N2O$Removal.season <- factor(GHG.removal.N2O$Removal.season,
 Figure8a <- ggplot(GHG.removal, aes(x = Region, y = paste(Removal.season), color = Manure.type, size = Count)) +
   geom_point(alpha = 0.7) +
   labs(x = "Region", y = "Removal season", color = "Manure Type", size = "Count", title = "(a) CH₄") +
-  scale_color_manual(values = c("deepskyblue2", "goldenrod")) +
+  scale_color_manual(values = c(alpha("deepskyblue2", 0.6), alpha("goldenrod", 0.6))) +
   theme_classic() +
   theme(axis.text = element_text(size = 12, colour = "black"),
         axis.title.x = element_text(size = 14),
@@ -90,7 +90,7 @@ Figure8a
 Figure8b <- ggplot(GHG.removal.N2O, aes(x = Region, y = paste(Removal.season), color = Manure.type, size = Count)) +
   geom_point(alpha = 0.7) +
   labs(x = "Region", y = "Removal season", color = "Manure Type", size = "Count", title = "(b) N₂O") +
-  scale_color_manual(values = c("deepskyblue2", "goldenrod")) +
+  scale_color_manual(values = c(alpha("deepskyblue2", 0.6), alpha("goldenrod", 0.6))) +
   theme_classic() +
   theme(axis.text = element_text(size = 12, colour = "black"),
         axis.title.x = element_text(size = 14),

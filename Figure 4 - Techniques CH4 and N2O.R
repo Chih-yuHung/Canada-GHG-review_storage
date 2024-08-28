@@ -51,6 +51,7 @@ Tech_data <- GHG.storage.CH4 %>%
   separate_rows(Technique, sep = ",\\s*")
 Tech_data[Tech_data$Technique=='Soil chamber',"Technique"] <- "Chamber"
 Tech_data[Tech_data$Technique=='Animal chamber',"Technique"] <- "Chamber"
+Tech_data[Tech_data$Technique=='Mixed',"Technique"] <- "LCA"
 Tech_data <- Tech_data %>%
   group_by(Pub..year,Technique) %>%
   summarise(Number = n()) %>%
@@ -64,8 +65,8 @@ Tech_data <- Tech_data %>%
 
 #Set the order for the techniques
 Tech_data$Technique <- factor(Tech_data$Technique, 
-                              levels = c("Chamber", "Incubation", "Micrometeorology", 
-                                         "Mixed", "Modelling"))
+                              levels = c("Chamber", "Incubation", "LCA", 
+                                         "Micrometeorology", "Modelling"))
 tapply(Tech_data$Number,Tech_data$Technique,sum)
 #Chamber #44 30.6%, Incubation #42 29.2%, Micrometeorology #23 16.0%, 
 #Mixed #19 13.2%, Modelling #16 11.1%.
@@ -89,6 +90,7 @@ Tech_province_CH4 <- GHG.storage.CH4 %>%
   separate_rows(Technique, sep = ",\\s*")
 Tech_province_CH4[Tech_province_CH4$Technique=='Soil chamber',"Technique"] <- "Chamber"
 Tech_province_CH4[Tech_province_CH4$Technique=='Animal chamber',"Technique"] <- "Chamber"
+Tech_province_CH4[Tech_province_CH4$Technique=='Mixed',"Technique"] <- "LCA"
 Tech_province_CH4 <- Tech_province_CH4 %>%
   group_by(Region,Technique) %>%
   summarise(Number = n()) %>%
@@ -115,6 +117,7 @@ Tech_data_N2O <- GHG.storage.N2O %>%
   separate_rows(Technique, sep = ",\\s*")
 Tech_data_N2O[Tech_data_N2O$Technique=='Soil chamber',"Technique"] <- "Chamber"
 Tech_data_N2O[Tech_data_N2O$Technique=='Animal chamber',"Technique"] <- "Chamber"
+Tech_data_N2O[Tech_data_N2O$Technique=='Mixed',"Technique"] <- "LCA"
 Tech_data_N2O <- Tech_data_N2O %>%
   group_by(Pub..year,Technique) %>%
   summarise(Number = n()) %>%
@@ -128,8 +131,8 @@ Tech_data_N2O <- Tech_data_N2O %>%
 
 #Set the order for the techniques
 Tech_data_N2O$Technique <- factor(Tech_data_N2O$Technique, 
-                                  levels = c("Chamber", "Incubation", "Micrometeorology", 
-                                             "Mixed", "Modelling"))
+                                  levels = c("Chamber", "Incubation", "LCA", 
+                                             "Micrometeorology", "Modelling"))
 tapply(Tech_data_N2O$Number,Tech_data_N2O$Technique,sum)
 #Chamber #35 47.9%, Incubation #4 5.5%, Micrometeorology #6 8.2%, 
 #Mixed #19 26.0%, Modelling #9 12.3%.
@@ -153,6 +156,7 @@ Tech_province_N2O <- GHG.storage.N2O %>%
   separate_rows(Technique, sep = ",\\s*")
 Tech_province_N2O[Tech_province_N2O$Technique=='Soil chamber',"Technique"] <- "Chamber"
 Tech_province_N2O[Tech_province_N2O$Technique=='Animal chamber',"Technique"] <- "Chamber"
+Tech_province_N2O[Tech_province_N2O$Technique=='Mixed',"Technique"] <- "LCA"
 Tech_province_N2O <- Tech_province_N2O %>%
   group_by(Region,Technique) %>%
   summarise(Number = n()) %>%
@@ -185,9 +189,9 @@ province <- c("BC", "AB", "SK", "MB", "ON", "QC", "NB", "NS", "PE", "NL")
 Figure4a <- ggplot(Tech_data, aes(x = Pub..year, y = Tech, color = Technique)) +
   geom_line() +
   geom_point() +
-  labs(x = "Publication Year", y = "Study count", color = "Method", title = "(a) CH₄") +
+  labs(x = "Publication Year", y = "Cumulative study count", color = "Method", title = "(a) CH₄") +
   scale_color_manual(values = c("Chamber" = "deepskyblue2", "Incubation" = "darkmagenta", 
-                                "Micrometeorology" = "violetred1", "Mixed" = "goldenrod", 
+                                "Micrometeorology" = "violetred1", "LCA" = "goldenrod", 
                                 "Modelling" = "darkolivegreen4")) +
   theme_classic() +
   theme(axis.text = element_text(size = 12, colour = "black"),
@@ -209,9 +213,9 @@ Figure4a
 Figure4b <- ggplot(Tech_data_N2O, aes(x = Pub..year, y = Tech, color = Technique)) +
   geom_line() +
   geom_point() +
-  labs(x = "Publication Year", y = "Study count", color = "Method", title = "(b) N₂O") +
+  labs(x = "Publication Year", y = "Cumulative study count", color = "Method", title = "(b) N₂O") +
   scale_color_manual(values = c("Chamber" = "deepskyblue2", "Incubation" = "darkmagenta", 
-                                "Micrometeorology" = "violetred1", "Mixed" = "goldenrod", 
+                                "Micrometeorology" = "violetred1", "LCA" = "goldenrod", 
                                 "Modelling" = "darkolivegreen4")) +
   theme_classic() +
   theme(axis.text = element_text(size = 12, colour = "black"),
@@ -236,7 +240,7 @@ Figure4c <- ggplot(Tech_province_CH4,
            linetype = 0) +
   labs(x = "Province", y = "Study Count", fill = "Method", title = "(c) CH₄") +
   scale_fill_manual(values = c("Chamber" = "deepskyblue2", "Incubation" = "darkmagenta", 
-                               "Micrometeorology" = "violetred1", "Mixed" = "goldenrod", 
+                               "Micrometeorology" = "violetred1", "LCA" = "goldenrod", 
                                "Modelling" = "darkolivegreen4")) +
   theme_classic() +
   theme(axis.text = element_text(size = 12, color = "black"),
@@ -263,7 +267,7 @@ Figure4d <- ggplot(Tech_province_N2O,
            linetype = 0) +
   labs(x = "Province", y = "Study Count", fill = "Method", title = "(d) N₂O") +
   scale_fill_manual(values = c("Chamber" = "deepskyblue2", "Incubation" = "darkmagenta", 
-                               "Micrometeorology" = "violetred1", "Mixed" = "goldenrod", 
+                               "Micrometeorology" = "violetred1", "LCA" = "goldenrod", 
                                "Modelling" = "darkolivegreen4")) +
   theme_classic() +
   theme(axis.text = element_text(size = 12, color = "black"),

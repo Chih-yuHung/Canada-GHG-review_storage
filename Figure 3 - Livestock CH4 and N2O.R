@@ -71,7 +71,7 @@ Figure3a <- ggplot(data = na.omit(livestock_data),
                   aes(x = Pub..year, y = Animal, color = Livestock, group = Livestock)) +
   geom_line() +
   geom_point() +
-  labs(x = "Publication Year", y = "Study Count", color = "Animal type", title = "(a) CH₄") +
+  labs(x = "Publication Year", y = "Cumulative study count", color = "Animal type", title = "(a) CH₄") +
   scale_color_manual(values = c("Beef Cattle" = "violetred1", "Dairy Cattle" = "deepskyblue2", 
                                "Swine" = "grey", "Poultry" = "goldenrod",
                                "Horse" = "darkmagenta", "Sheep" = "limegreen")) +
@@ -96,7 +96,7 @@ Figure3b <- ggplot(data = na.omit(livestock_data_N2O),
                    aes(x = Pub..year, y = Animal, color = Livestock, group = Livestock)) +
   geom_line() +
   geom_point() +
-  labs(x = "Publication Year", y = "Study Count", color = "Animal type", title = "(b) N₂O") +
+  labs(x = "Publication Year", y = "Cumulative study count", color = "Animal type", title = "(b) N₂O") +
   scale_color_manual(values = c("Beef Cattle" = "violetred1", "Dairy Cattle" = "deepskyblue2", 
                                 "Swine" = "grey", "Poultry" = "goldenrod",
                                 "Horse" = "darkmagenta", "Sheep" = "limegreen")) +
