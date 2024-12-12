@@ -85,7 +85,7 @@ Figure3a <- ggplot(data = na.omit(livestock_data),
         legend.text = element_text(size = 12),
         axis.line = element_line(color = "black")) +
   scale_y_continuous(limits = c(0, 80), 
-                     breaks = seq(0, 80, by = 5),
+                     breaks = seq(0, 80, by = 10),
                      expand = c(0, 0))+
   scale_x_continuous(limits = c(1990, 2024), 
                      breaks = seq(1990, 2024 , by = 5),
@@ -110,7 +110,7 @@ Figure3b <- ggplot(data = na.omit(livestock_data_N2O),
         legend.text = element_text(size = 12),
         axis.line = element_line(color = "black")) +
   scale_y_continuous(limits = c(0, 80), 
-                     breaks = seq(0, 80, by = 5),
+                     breaks = seq(0, 80, by = 10),
                      expand = c(0, 0))+
   scale_x_continuous(limits = c(1990, 2024), 
                      breaks = seq(1990, 2024 , by = 5),
@@ -181,7 +181,7 @@ Figure3d
 
 
 #Export figure 2 panels
-ggsave("output/Figure 3 - Livestock CH4 and N2O.png", 
+ggsave("output/Figure 3 - Livestock CH4 and N2O_CY.png", 
        ggarrange(Figure3a, Figure3b, 
                  nrow = 1, ncol = 2,
                  common.legend = TRUE, legend = "bottom"),
