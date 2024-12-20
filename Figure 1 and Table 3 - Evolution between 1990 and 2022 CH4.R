@@ -1,7 +1,7 @@
 #This script looks at the evolution of emissions between 1990 and 2022
 library(tidyverse); library(gt)
 
-#NIR N2O data, convert to kT CO2e
+#NIR N2O data, need to convert to kT CO2e by multiplying 265
 N2O <- read_csv("input/N2O_summary_Canada.csv")
 
 #Make rows "Other" and "Total"
@@ -24,10 +24,11 @@ Livestock_Name <- c("Non-dairy cattle"="Beef cattle",
                     "Other"="Other",
                     "Sheep"="Sheep",
                     "Total"="Total")
-N2O_Evolution$Livestock <- as.character(Livestock_Name[N2O_Evolution$Livestock])
+N2O_Evolution$Livestock <- as.character(Livestock_Name[N2O_Evolution$Livestock]) 
+
 N2O_Change <- N2O_Evolution %>%
   select('Livestock', '2005', '2022') %>%
-  mutate(across('2005':'2022', ~ .x * 265))
+  mutate(across('2005':'2022', ~ .x * 265)) # converted to kt CO2e
 
 # Make column for the change in emissions of N2O
 N2O_Change$'Change in N₂O emissions (kt CO₂e)' <- (N2O_Change$'2022' - N2O_Change$'2005')
@@ -147,8 +148,8 @@ gt_Change <-
 gt_Change
 
 #Export table 3 Change between 2005 and 2022
-gt_Change %>%
-  gtsave("Table3 - Change in CH4 and N2O emissions and animals between 2005 and 2022.docx")
+#gt_Change %>%
+#  gtsave("Table3 - Change in CH4 and N2O emissions and animals between 2005 and 2022.docx")
 
 
 
@@ -160,15 +161,15 @@ CH4_Evolution_Graph <- CH4_Evolution %>%
     names_to = "Year",
     values_to = "CH4_emissions")
 CH4_Evolution_Graph$Livestock <- factor(CH4_Evolution_Graph$Livestock, 
-                                        levels=c("Total", "Swine", "Beef cattle", 
-                                                 "Dairy cattle", "Poultry", "Horse", 
-                                                 "Sheep","Other"))
+                                        levels=c("Beef cattle","Dairy cattle",
+                                                 "Swine","Poultry", "Horse", 
+                                                 "Sheep","Other","Total"))
 CH4_Evolution_Graph <- CH4_Evolution_Graph %>%
   as.data.frame() 
 CH4_Evolution_Graph$Year <- as.numeric(CH4_Evolution_Graph$Year)
 
 #Make graph
-Graph_Evolution <-  
+Graph_Evolution_CH4 <-  
   ggplot(data = na.omit(CH4_Evolution_Graph),
          aes(x = factor(Year), 
              y = CH4_emissions,
@@ -176,7 +177,7 @@ Graph_Evolution <-
              color = Livestock,
              factor(group))) +
   geom_line(lwd =1.1) + 
-  labs(x = "Year", y = html("CH₄ emissions (kT CO₂e)")) +
+  labs(x = "Year", y = "CH₄ emissions (kT CO₂e)") +
   scale_color_manual(values = c("Beef cattle" = "violetred1", "Dairy cattle" = "deepskyblue2", 
                                 "Swine" = "grey", "Poultry" = "goldenrod",
                                 "Horse" = "darkmagenta", "Sheep" = "limegreen", 
@@ -195,10 +196,61 @@ Graph_Evolution <-
   geom_vline(xintercept = c('2005','2022'),
              lwd = 1.1,
              color = "grey",
-             linetype="dashed") 
-Graph_Evolution
+             linetype="dashed") +
+  annotate("text", x = -Inf, y = Inf, label = "(a) CH₄", hjust = -0.2, vjust = 1.2, size = 5)
+
+#Make graph of N2O emissions by livestock from 1990 to 2022
+#Make table on the long format
+N2O_Evolution_Graph <- N2O_Evolution %>%
+  select(-c(`Population 1990`,`Population 2005`, `Population 2021`)) %>%
+  mutate(across('1990':'2022', ~ .x * 265)) %>% # converted to kt CO2e 
+  pivot_longer(
+    cols = '1990':'2022',
+    names_to = "Year",
+    values_to = "N2O_emissions")
+N2O_Evolution_Graph$Livestock <- factor(N2O_Evolution_Graph$Livestock, 
+                                        levels=c("Beef cattle","Dairy cattle",
+                                                 "Swine","Poultry", "Horse", 
+                                                 "Sheep","Other","Total"))
+N2O_Evolution_Graph <- N2O_Evolution_Graph %>%
+  as.data.frame() 
+N2O_Evolution_Graph$Year <- as.numeric(N2O_Evolution_Graph$Year)
+
+#Make the grapgh
+Graph_Evolution_N2O <-  
+  ggplot(data = na.omit(N2O_Evolution_Graph),
+         aes(x = factor(Year), 
+             y = N2O_emissions,
+             group = Livestock,
+             color = Livestock,
+             factor(group))) +
+  geom_line(lwd =1.1) + 
+  labs(x = "Year", y = "N₂O emissions (kT CO₂e)") +
+  scale_color_manual(values = c("Beef cattle" = "violetred1", "Dairy cattle" = "deepskyblue2", 
+                                "Swine" = "grey", "Poultry" = "goldenrod",
+                                "Horse" = "darkmagenta", "Sheep" = "limegreen", 
+                                "Other" = "violet", "Total" = "gold")) +
+  guides(color = guide_legend(title = "Animal type")) +
+  theme_classic() +
+  theme(axis.text.x = element_text(vjust = 0.5)) +
+  theme(axis.text = element_text(size = 12, colour = "black"),
+        axis.title.x = element_text(size = 14),
+        axis.title.y = element_text(size = 14),
+        legend.title = element_text(size = 14),  # Adjust legend title font size
+        legend.text = element_text(size = 12),
+        axis.line = element_line(color = "black")) +
+  scale_x_discrete(breaks = seq(1990, 2030 , by = 5),
+                   expand = expansion(mult = c(0, 0.04))) +
+  geom_vline(xintercept = c('2005','2022'),
+             lwd = 1.1,
+             color = "grey",
+             linetype="dashed")  +
+  annotate("text", x = -Inf, y = Inf, label = "(b) N₂O", hjust = -0.2, vjust = 1.2, size = 5)
 
 #Export figure
-ggsave("output/Figure 1 - Evolution between 1990 and 2022 CH4.png", Graph_Evolution,
+ggsave("output/Figure 1 - Evolution between 1990 and 2022 CH4.png", Graph_Evolution_CH4,
+       width = 24, height = 14, units = "cm",
+       dpi = 300)
+ggsave("output/Figure 1 - Evolution between 1990 and 2022 N2O.png", Graph_Evolution_N2O,
        width = 24, height = 14, units = "cm",
        dpi = 300)
